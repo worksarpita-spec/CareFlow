@@ -2029,3 +2029,629 @@ a {
     }
 
 }
+
+.appointment-container
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#eef7fb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.container{
+    width:450px;
+    background:#ffffff;
+    padding:35px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+h1{
+    text-align:center;
+    color:#0077b6;
+    margin-bottom:8px;
+}
+
+.subtitle{
+    text-align:center;
+    color:gray;
+    margin-bottom:25px;
+}
+
+.appointment-input-box{
+    margin-bottom:18px;
+}
+
+label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:bold;
+    color:#333;
+}
+
+input,
+select,
+textarea{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+    transition:0.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+    border-color:#0096c7;
+    box-shadow:0 0 8px rgba(0,150,199,0.3);
+}
+
+textarea{
+    resize:none;
+}
+
+.appointment-button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:8px;
+    background:#0096c7;
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0077b6;
+    transform:scale(1.02);
+}
+
+button:active{
+    transform:scale(0.98);
+}
+
+:root{
+
+    --background:#f8f9f6;
+    --surface:#ffffff;
+    --surface-soft:#f1f4f0;
+
+    --text-primary:#25302b;
+    --text-secondary:#7b8580;
+
+    --sage:#91a99a;
+    --sage-dark:#789884;
+    --sage-soft:#e5ece7;
+
+    --border:#e7ebe7;
+
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    background:var(--background);
+
+    font-family:"DM Sans",sans-serif;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    min-height:100vh;
+
+    padding:40px;
+
+}
+
+.confirmation-container{
+
+    width:100%;
+    max-width:850px;
+
+}
+
+.confirmation-card{
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:28px;
+
+    padding:40px;
+
+    box-shadow:0 25px 60px rgba(45,60,52,.08);
+
+}
+
+h1{
+
+    font-family:"Manrope",sans-serif;
+
+    text-align:center;
+
+    font-size:40px;
+
+    margin-bottom:10px;
+
+}
+
+.subtitle{
+
+    text-align:center;
+
+    color:var(--text-secondary);
+
+    margin-bottom:40px;
+
+}
+
+.details{
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    margin-bottom:35px;
+
+}
+
+.confirmation-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    padding:18px 22px;
+
+    border-bottom:1px solid var(--border);
+
+}
+
+.row:last-child{
+
+    border-bottom:none;
+
+}
+
+.row span{
+
+    color:var(--text-secondary);
+
+}
+
+.available{
+
+    color:#4d8d5b;
+
+}
+
+.flow{
+
+    display:grid;
+
+    gap:12px;
+
+    margin-bottom:35px;
+
+}
+
+.step{
+
+    padding:15px 18px;
+
+    background:var(--surface-soft);
+
+    border-radius:12px;
+
+    color:var(--text-secondary);
+
+    transition:.3s;
+
+}
+
+.active{
+
+    background:#dfe9e2;
+
+    color:#5f7d68;
+
+    font-weight:600;
+
+}
+
+.current{
+
+    background:var(--sage-dark);
+
+    color:white;
+
+    font-weight:bold;
+
+}
+
+.confirm-buttons{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+}
+
+button{
+
+    flex:1;
+
+    padding:15px;
+
+    border:none;
+
+    border-radius:14px;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.cancel-button{
+
+    background:#ecefed;
+
+    color:var(--text-secondary);
+
+}
+
+.cancel:hover{
+
+    background:#dfe5e0;
+
+}
+
+.confirm{
+
+    background:var(--sage-dark);
+
+    color:white;
+
+}
+
+.confirm:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 20px rgba(100,130,110,.25);
+
+}
+
+@media(max-width:700px){
+
+.buttons{
+
+    flex-direction:column;
+
+}
+
+.row{
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+h1{
+
+    font-size:30px;
+
+}
+
+.card{
+
+    padding:25px;
+
+}
+
+}
+/* =====================================================
+   ROOT VARIABLES
+===================================================== */
+
+:root{
+
+    --background:#f8f9f6;
+    --surface:#ffffff;
+    --surface-soft:#f1f4f0;
+
+    --text-primary:#25302b;
+    --text-secondary:#7b8580;
+    --text-light:#a1aaa5;
+
+    --sage:#91a99a;
+    --sage-dark:#789884;
+    --sage-soft:#e5ece7;
+
+    --border:#e7ebe7;
+
+}
+
+/* =====================================================
+   RESET
+===================================================== */
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+body{
+
+    font-family:"DM Sans",sans-serif;
+    background:var(--background);
+    color:var(--text-primary);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    min-height:100vh;
+    padding:40px;
+
+}
+
+/* =====================================================
+   CONTAINER
+===================================================== */
+
+.history-container{
+
+    width:100%;
+    max-width:850px;
+
+}
+
+.history-card{
+
+    background:var(--surface);
+
+    border:1px solid var(--border);
+
+    border-radius:28px;
+
+    padding:40px;
+
+    box-shadow:0 25px 70px rgba(45,60,52,.08);
+
+}
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+h1{
+
+    font-family:"Manrope",sans-serif;
+    font-size:42px;
+    text-align:center;
+    letter-spacing:-2px;
+
+}
+
+.subtitle{
+
+    text-align:center;
+    color:var(--text-secondary);
+
+    margin:12px 0 40px;
+
+}
+
+/* =====================================================
+   APPOINTMENT CARD
+===================================================== */
+
+.appointment-box{
+
+    background:var(--surface-soft);
+
+    border:1px solid var(--border);
+
+    border-radius:20px;
+
+    padding:25px;
+
+    margin-bottom:25px;
+
+    transition:.3s;
+
+}
+
+.appointment-box:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:0 15px 35px rgba(45,60,52,.08);
+
+}
+
+/* =====================================================
+   HEADER ROW
+===================================================== */
+
+.appointment-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin-bottom:18px;
+
+}
+
+.appointment-header h2{
+
+    font-family:"Manrope",sans-serif;
+    font-size:24px;
+
+}
+
+.status{
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    font-size:12px;
+    font-weight:600;
+
+}
+
+.completed{
+
+    background:#dcece1;
+    color:#5d8668;
+
+}
+
+.pending{
+
+    background:#f3f3f3;
+    color:#7b8580;
+
+}
+
+/* =====================================================
+   DETAILS
+===================================================== */
+
+.appointment-box p{
+
+    margin:10px 0;
+
+    color:var(--text-secondary);
+
+    font-size:14px;
+
+}
+
+.appointment-box strong{
+
+    color:var(--text-primary);
+
+}
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+button{
+
+    margin-top:20px;
+
+    padding:13px 25px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:var(--sage-dark);
+
+    color:white;
+
+    font-size:14px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 10px 25px rgba(100,130,110,.2);
+
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:768px){
+
+.history-card{
+
+    padding:25px;
+
+}
+
+.appointment-header{
+
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+
+}
+
+h1{
+
+    font-size:34px;
+
+}
+
+}
+
+@media(max-width:480px){
+
+body{
+
+    padding:20px;
+
+}
+
+.history-card{
+
+    padding:20px;
+
+}
+
+h1{
+
+    font-size:28px;
+
+}
+
+button{
+
+    width:100%;
+
+}
+
+}

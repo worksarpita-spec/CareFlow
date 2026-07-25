@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment | CareFlow</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>Book Appointment</h1>
+    <p class="subtitle">Schedule your visit with a doctor.</p>
+
+    <form action="confirm-booking.html">
+
+        <div class="input-box">
+            <label>Patient Name</label>
+            <input type="text" placeholder="Enter your name" required>
+        </div>
+
+        
+
+        <div class="input-box">
+            <label>Select Date</label>
+            <input type="date" required>
+        </div>
+
+        <div class="input-box">
+            <label>Select Time Slot</label>
+
+            <select required>
+                <option value="">Choose Time</option>
+                <option>09:00 AM</option>
+                <option>09:30 AM</option>
+                <option>10:00 AM</option>
+                <option>10:30 AM</option>
+                <option>11:00 AM</option>
+                <option>11:30 AM</option>
+                <option>02:00 PM</option>
+                <option>02:30 PM</option>
+                <option>03:00 PM</option>
+                <option>03:30 PM</option>
+                <option>04:00 PM</option>
+            </select>
+
+        </div>
+
+        <div class="input-box">
+            <label>Reason for Visit</label>
+
+            <textarea rows="4" placeholder="Enter your symptoms or reason..." required></textarea>
+
+        </div>
+
+        <button type="submit">
+            Book Appointment
+        </button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
