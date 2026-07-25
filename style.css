@@ -1,0 +1,2031 @@
+/* =====================================================
+   ROOT VARIABLES
+===================================================== */
+
+:root {
+
+    --background: #f8f9f6;
+
+    --surface: #ffffff;
+
+    --surface-soft: #f1f4f0;
+
+    --text-primary: #25302b;
+
+    --text-secondary: #7b8580;
+
+    --text-light: #a1aaa5;
+
+    --sage: #91a99a;
+
+    --sage-dark: #789884;
+
+    --sage-soft: #e5ece7;
+
+    --border: #e7ebe7;
+
+}
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+
+html {
+
+    scroll-behavior: smooth;
+
+}
+
+
+body {
+
+    font-family: "DM Sans", sans-serif;
+
+    background: var(--background);
+
+    color: var(--text-primary);
+
+    overflow-x: hidden;
+
+}
+
+
+a {
+
+    text-decoration: none;
+
+    color: inherit;
+
+}
+
+
+/* =====================================================
+   ANIMATIONS
+===================================================== */
+
+@keyframes fadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(25px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+@keyframes fadeIn {
+
+    from {
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+    }
+
+}
+
+
+@keyframes subtleFloat {
+
+    0% {
+
+        transform: translateY(0);
+
+    }
+
+    50% {
+
+        transform: translateY(-6px);
+
+    }
+
+    100% {
+
+        transform: translateY(0);
+
+    }
+
+}
+
+
+@keyframes livePulse {
+
+    0% {
+
+        box-shadow: 0 0 0 0 rgba(145, 169, 154, 0.35);
+
+    }
+
+    70% {
+
+        box-shadow: 0 0 0 7px rgba(145, 169, 154, 0);
+
+    }
+
+    100% {
+
+        box-shadow: 0 0 0 0 rgba(145, 169, 154, 0);
+
+    }
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+.navbar {
+
+    position: relative;
+
+    z-index: 10;
+
+    width: 100%;
+
+    padding: 26px 6vw;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background: var(--background);
+
+    animation: fadeIn 0.8s ease forwards;
+
+}
+
+
+.logo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+}
+
+
+.logo-mark {
+
+    width: 34px;
+
+    height: 34px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--sage);
+
+    color: white;
+
+    font-size: 21px;
+
+    font-weight: 500;
+
+}
+
+
+.logo-name span {
+
+    color: var(--sage-dark);
+
+}
+
+
+.nav-links {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 38px;
+
+}
+
+
+.nav-links a {
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    transition: color 0.3s ease;
+
+}
+
+
+.nav-links a:hover {
+
+    color: var(--sage-dark);
+
+}
+
+
+.nav-cta {
+
+    padding: 13px 22px;
+
+    border-radius: 30px;
+
+    background: var(--text-primary);
+
+    color: white;
+
+    font-size: 13px;
+
+    transition:
+
+        transform 0.3s ease,
+
+        box-shadow 0.3s ease;
+
+}
+
+
+.nav-cta:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 12px 25px rgba(70, 90, 78, 0.16);
+
+}
+
+
+/* =====================================================
+   HERO
+===================================================== */
+
+.hero {
+
+    position: relative;
+
+    min-height: 780px;
+
+    overflow: hidden;
+
+    padding: 90px 6vw 110px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    text-align: center;
+
+}
+
+
+.hero::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 500px;
+
+    height: 500px;
+
+    top: 80px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    background: rgba(220, 232, 223, 0.35);
+
+    filter: blur(100px);
+
+    border-radius: 50%;
+
+    z-index: -1;
+
+}
+
+
+.hero-content {
+
+    max-width: 850px;
+
+    animation: fadeUp 0.9s ease forwards;
+
+}
+
+
+.eyebrow {
+
+    margin-bottom: 22px;
+
+    color: var(--sage-dark);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 2.5px;
+
+}
+
+
+.hero h1 {
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: clamp(55px, 8vw, 105px);
+
+    line-height: 0.98;
+
+    letter-spacing: -5px;
+
+    font-weight: 700;
+
+}
+
+
+.hero h1 span {
+
+    display: block;
+
+    color: var(--sage-dark);
+
+}
+
+
+.hero-description {
+
+    max-width: 500px;
+
+    margin: 30px auto 0;
+
+    color: var(--text-secondary);
+
+    font-size: 16px;
+
+    line-height: 1.7;
+
+}
+
+
+.hero-actions {
+
+    margin-top: 35px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 28px;
+
+}
+
+
+/* =====================================================
+   BUTTONS
+===================================================== */
+
+.primary-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 15px 22px;
+
+    border-radius: 30px;
+
+    background: var(--sage-dark);
+
+    color: white;
+
+    font-size: 13px;
+
+    transition:
+
+        transform 0.3s ease,
+
+        box-shadow 0.3s ease;
+
+}
+
+
+.primary-button span {
+
+    font-size: 17px;
+
+}
+
+
+.primary-button:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+
+        0 12px 25px rgba(100, 130, 110, 0.16);
+
+}
+
+
+.text-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    transition:
+
+        gap 0.3s ease,
+
+        color 0.3s ease;
+
+}
+
+
+.text-button:hover {
+
+    gap: 15px;
+
+    color: var(--sage-dark);
+
+}
+
+
+.secondary-button {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 15px 22px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 30px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    transition:
+
+        transform 0.3s ease,
+
+        background 0.3s ease;
+
+}
+
+
+.secondary-button:hover {
+
+    transform: translateY(-3px);
+
+    background: var(--surface-soft);
+
+}
+
+
+/* =====================================================
+   QUEUE VISUAL
+===================================================== */
+
+.queue-visual {
+
+    width: min(900px, 100%);
+
+    margin-top: 80px;
+
+    padding: 30px;
+
+    text-align: left;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 30px;
+
+    box-shadow:
+
+        0 25px 80px rgba(45, 60, 52, 0.08),
+
+        0 5px 20px rgba(45, 60, 52, 0.03);
+
+    opacity: 0;
+
+    animation:
+
+        fadeUp 1s ease 0.15s forwards,
+
+        subtleFloat 6s ease-in-out 1.2s infinite;
+
+}
+
+
+.visual-top-bar {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding-bottom: 22px;
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+
+.visual-title {
+
+    color: var(--text-light);
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2px;
+
+}
+
+
+.live-indicator {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    color: var(--sage-dark);
+
+    font-size: 11px;
+
+}
+
+
+.live-indicator span {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--sage);
+
+    animation: livePulse 2s ease-in-out infinite;
+
+}
+
+
+.queue-heading {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    justify-content: space-between;
+
+    padding: 30px 0 25px;
+
+}
+
+
+.queue-heading p {
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+}
+
+
+.queue-heading h2 {
+
+    margin-top: 5px;
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: 28px;
+
+}
+
+
+.queue-count {
+
+    padding: 8px 13px;
+
+    border-radius: 20px;
+
+    background: var(--surface-soft);
+
+    color: var(--sage-dark);
+
+    font-size: 11px;
+
+}
+
+
+.queue-list {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+}
+
+
+.queue-item {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    padding: 16px 18px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 15px;
+
+    transition:
+
+        transform 0.35s ease,
+
+        background 0.35s ease,
+
+        border-color 0.35s ease,
+
+        box-shadow 0.35s ease;
+
+}
+
+
+.queue-item:hover {
+
+    transform: translateX(6px);
+
+    background: #fafcf9;
+
+    border-color: #dce5de;
+
+    box-shadow:
+
+        0 8px 20px rgba(80, 100, 88, 0.05);
+
+}
+
+
+.queue-item.active {
+
+    background: #f2f7f3;
+
+    border-color: #d7e4da;
+
+}
+
+
+.queue-number {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 12px;
+
+    background: var(--sage-soft);
+
+    color: var(--sage-dark);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    transition:
+
+        transform 0.3s ease,
+
+        background 0.3s ease;
+
+}
+
+
+.queue-item:hover .queue-number {
+
+    transform: scale(1.08);
+
+    background: var(--sage-soft);
+
+}
+
+
+.patient-details {
+
+    flex: 1;
+
+}
+
+
+.patient-details h3 {
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.patient-details p {
+
+    margin-top: 3px;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+}
+
+
+.queue-status {
+
+    padding: 7px 12px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+}
+
+
+.in-progress {
+
+    background: #dcece1;
+
+    color: #62866d;
+
+}
+
+
+.waiting {
+
+    background: #f1f2ef;
+
+    color: #808983;
+
+}
+
+
+.visual-footer {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding-top: 25px;
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+}
+
+
+.visual-footer strong {
+
+    color: var(--sage-dark);
+
+}
+
+
+/* =====================================================
+   INTRODUCTION
+===================================================== */
+
+.intro-section {
+
+    padding: 170px 6vw;
+
+    text-align: center;
+
+    background: var(--text-primary);
+
+    color: white;
+
+}
+
+
+.intro-section h2 {
+
+    max-width: 850px;
+
+    margin: auto;
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: clamp(40px, 6vw, 78px);
+
+    line-height: 1.05;
+
+    letter-spacing: -3px;
+
+}
+
+
+.intro-section h2 span {
+
+    display: block;
+
+    color: #91ad99;
+
+}
+
+
+.intro-description {
+
+    max-width: 480px;
+
+    margin: 30px auto 0;
+
+    color: #aebbb2;
+
+    font-size: 15px;
+
+}
+
+
+/* =====================================================
+   HOW IT WORKS
+===================================================== */
+
+/* =====================================================
+   HOW IT WORKS
+===================================================== */
+
+.flow-section {
+
+    position: relative;
+
+    padding: 140px 6vw;
+
+    overflow: hidden;
+
+}
+
+
+.flow-section::before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 400px;
+
+    height: 400px;
+
+    right: -150px;
+
+    top: 150px;
+
+    background: rgba(224, 234, 226, 0.45);
+
+    filter: blur(100px);
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+}
+
+
+.section-header {
+
+    position: relative;
+
+    z-index: 1;
+
+    max-width: 650px;
+
+    margin-bottom: 70px;
+
+}
+
+
+.section-header h2 {
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: clamp(42px, 6vw, 75px);
+
+    line-height: 1;
+
+    letter-spacing: -3px;
+
+}
+
+
+.section-header h2 span {
+
+    display: block;
+
+    color: var(--sage-dark);
+
+}
+
+
+/* =========================
+   APPOINTMENT FLOW
+========================= */
+
+.appointment-flow {
+
+    position: relative;
+
+    z-index: 1;
+
+    display: flex;
+
+    align-items: stretch;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+}
+
+
+.flow-step {
+
+    flex: 1;
+
+    min-height: 270px;
+
+    padding: 28px;
+
+    background: rgba(255, 255, 255, 0.65);
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    transition:
+
+        transform 0.45s ease,
+
+        background 0.45s ease,
+
+        box-shadow 0.45s ease,
+
+        border-color 0.45s ease;
+
+}
+
+
+.flow-step:hover {
+
+    transform: translateY(-10px);
+
+    background: #ffffff;
+
+    border-color: #d4e0d7;
+
+    box-shadow:
+
+        0 20px 40px rgba(80, 100, 88, 0.08);
+
+}
+
+
+.step-top {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+.flow-number {
+
+    color: var(--sage-dark);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+}
+
+
+.step-icon {
+
+    width: 42px;
+
+    height: 42px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: var(--sage-soft);
+
+    color: var(--sage-dark);
+
+    font-size: 18px;
+
+    transition:
+
+        transform 0.4s ease,
+
+        background 0.4s ease;
+
+}
+
+
+.flow-step:hover .step-icon {
+
+    transform: rotate(12deg) scale(1.1);
+
+    background: #dce9df;
+
+}
+
+
+.step-content {
+
+    margin-top: 75px;
+
+}
+
+
+.step-content h3 {
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: 25px;
+
+    font-weight: 600;
+
+}
+
+
+.step-content p {
+
+    max-width: 200px;
+
+    margin-top: 13px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.7;
+
+}
+
+
+/* =========================
+   CONNECTORS
+========================= */
+
+.flow-connector {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    color: var(--sage);
+
+    font-size: 22px;
+
+    opacity: 0.65;
+
+}
+
+
+.flow-connector span {
+
+    display: inline-block;
+
+    transition:
+
+        transform 0.35s ease,
+
+        color 0.35s ease;
+
+}
+
+
+.appointment-flow:hover .flow-connector span {
+
+    transform: translateX(5px);
+
+    color: var(--sage-dark);
+
+}
+
+
+/* =========================
+   FLOW STATUS BAR
+========================= */
+
+.flow-status-bar {
+
+    position: relative;
+
+    z-index: 1;
+
+    margin-top: 55px;
+
+    padding: 18px 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-top: 1px solid var(--border);
+
+    border-bottom: 1px solid var(--border);
+
+}
+
+
+.status-line {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    color: var(--text-secondary);
+
+    font-size: 12px;
+
+}
+
+
+.status-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--sage);
+
+    animation: livePulse 2s ease-in-out infinite;
+
+}
+
+
+.status-text {
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+    letter-spacing: 0.3px;
+
+}
+
+
+/* =====================================================
+   CTA SECTION
+===================================================== */
+
+.cta-section {
+
+    padding: 170px 6vw;
+
+    text-align: center;
+
+}
+
+
+.cta-section h2 {
+
+    max-width: 750px;
+
+    margin: auto;
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: clamp(45px, 7vw, 90px);
+
+    line-height: 1;
+
+    letter-spacing: -4px;
+
+}
+
+
+.cta-section h2 span {
+
+    display: block;
+
+    color: var(--sage-dark);
+
+}
+
+
+.cta-buttons {
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    margin-top: 40px;
+
+}
+
+
+/* =====================================================
+   FOOTER
+===================================================== */
+
+.footer {
+
+    padding: 30px 6vw;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-top: 1px solid var(--border);
+
+    color: var(--text-light);
+
+    font-size: 11px;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE DESIGN
+===================================================== */
+
+@media (max-width: 900px) {
+
+
+    .nav-links {
+
+        display: none;
+
+    }
+
+
+    .flow-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+
+}
+
+
+@media (max-width: 600px) {
+
+
+    .navbar {
+
+        padding: 20px;
+
+    }
+
+
+    .nav-cta {
+
+        display: none;
+
+    }
+
+
+    .hero {
+
+        padding: 70px 20px 80px;
+
+    }
+
+
+    .hero h1 {
+
+        font-size: 55px;
+
+        letter-spacing: -3px;
+
+    }
+
+
+    .hero-actions {
+
+        flex-direction: column;
+
+        gap: 20px;
+
+    }
+
+
+    .queue-visual {
+
+        padding: 18px;
+
+        border-radius: 20px;
+
+    }
+
+
+    .queue-heading {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 15px;
+
+    }
+
+
+    .queue-status {
+
+        display: none;
+
+    }
+
+
+    .intro-section,
+
+    .flow-section,
+
+    .cta-section {
+
+        padding: 100px 20px;
+
+    }
+
+
+    .intro-section h2,
+
+    .section-header h2,
+
+    .cta-section h2 {
+
+        letter-spacing: -2px;
+
+    }
+
+
+    .flow-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .cta-buttons {
+
+        flex-direction: column;
+
+        align-items: center;
+
+    }
+
+
+    .footer {
+
+        flex-direction: column;
+
+        gap: 18px;
+
+        text-align: center;
+
+    }
+
+
+}
+/* =====================================================
+   PATIENT LOGIN PAGE
+===================================================== */
+
+.portal-page {
+
+    min-height: 100vh;
+
+    background: var(--background);
+
+}
+
+
+.back-home {
+
+    position: absolute;
+
+    top: 30px;
+
+    left: 6vw;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    transition: color 0.3s ease;
+
+}
+
+
+.back-home:hover {
+
+    color: var(--sage-dark);
+
+}
+
+
+.login-container {
+
+    min-height: 100vh;
+
+    max-width: 1250px;
+
+    margin: auto;
+
+    padding: 100px 6vw;
+
+    display: grid;
+
+    grid-template-columns: 1fr 430px;
+
+    align-items: center;
+
+    gap: 100px;
+
+}
+
+
+.login-intro {
+
+    animation: fadeUp 0.8s ease forwards;
+
+}
+
+
+.login-brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 80px;
+
+    font-size: 21px;
+
+    font-weight: 700;
+
+}
+
+
+.login-intro h1 {
+
+    max-width: 600px;
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: clamp(55px, 7vw, 90px);
+
+    line-height: 0.98;
+
+    letter-spacing: -4px;
+
+}
+
+
+.login-intro h1 span {
+
+    display: block;
+
+    color: var(--sage-dark);
+
+}
+
+
+.login-description {
+
+    max-width: 430px;
+
+    margin-top: 30px;
+
+    color: var(--text-secondary);
+
+    font-size: 15px;
+
+    line-height: 1.7;
+
+}
+
+
+.login-visual {
+
+    max-width: 480px;
+
+    margin-top: 60px;
+
+}
+
+
+.mini-queue-card {
+
+    padding: 25px;
+
+    background: rgba(255, 255, 255, 0.7);
+
+    border: 1px solid var(--border);
+
+    border-radius: 22px;
+
+    box-shadow: 0 20px 50px rgba(50, 70, 58, 0.06);
+
+}
+
+
+.mini-card-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    color: var(--text-light);
+
+    font-size: 10px;
+
+    letter-spacing: 1.5px;
+
+}
+
+
+.mini-live-dot {
+
+    width: 7px;
+
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--sage);
+
+    animation: livePulse 2s ease-in-out infinite;
+
+}
+
+
+.mini-queue-card h3 {
+
+    margin-top: 35px;
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: 22px;
+
+}
+
+
+.mini-queue-card p {
+
+    margin-top: 8px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+}
+
+
+.login-card {
+
+    padding: 42px;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border);
+
+    border-radius: 28px;
+
+    box-shadow:
+
+        0 25px 70px rgba(45, 60, 52, 0.08);
+
+    animation: fadeUp 0.8s ease 0.15s forwards;
+
+    opacity: 0;
+
+}
+
+
+.login-card-header h2 {
+
+    margin-top: 8px;
+
+    font-family: "Manrope", sans-serif;
+
+    font-size: 30px;
+
+}
+
+
+.login-card-header > p:last-child {
+
+    margin-top: 8px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+}
+
+
+#patientLoginForm {
+
+    margin-top: 35px;
+
+}
+
+
+.form-group {
+
+    margin-bottom: 22px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--text-primary);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+}
+
+
+.form-group input {
+
+    width: 100%;
+
+    padding: 14px 15px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    outline: none;
+
+    background: #fafcf9;
+
+    color: var(--text-primary);
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    transition:
+
+        border-color 0.3s ease,
+
+        box-shadow 0.3s ease;
+
+}
+
+
+.form-group input:focus {
+
+    border-color: var(--sage);
+
+    box-shadow: 0 0 0 4px rgba(145, 169, 154, 0.12);
+
+}
+
+
+.password-label {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+}
+
+
+.password-label a {
+
+    color: var(--sage-dark);
+
+    font-size: 11px;
+
+}
+
+
+.login-button {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 15px;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    background: var(--sage-dark);
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+
+        transform 0.3s ease,
+
+        box-shadow 0.3s ease;
+
+}
+
+
+.login-button:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 12px 25px rgba(100, 130, 110, 0.18);
+
+}
+
+
+.divider {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+    margin: 28px 0;
+
+    color: var(--text-light);
+
+    font-size: 10px;
+
+}
+
+
+.divider::before,
+
+.divider::after {
+
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background: var(--border);
+
+}
+
+
+.register-button {
+
+    width: 100%;
+
+    padding: 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background: transparent;
+
+    color: var(--text-secondary);
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition:
+
+        background 0.3s ease,
+
+        transform 0.3s ease;
+
+}
+
+
+.register-button:hover {
+
+    transform: translateY(-2px);
+
+    background: var(--surface-soft);
+
+}
+
+
+.login-footer {
+
+    margin-top: 25px;
+
+    color: var(--text-light);
+
+    font-size: 10px;
+
+    line-height: 1.6;
+
+    text-align: center;
+
+}
+
+
+.login-footer a {
+
+    color: var(--sage-dark);
+
+}
+
+
+/* RESPONSIVE LOGIN PAGE */
+
+@media (max-width: 900px) {
+
+    .login-container {
+
+        grid-template-columns: 1fr;
+
+        gap: 50px;
+
+        padding-top: 130px;
+
+    }
+
+
+    .login-intro {
+
+        text-align: center;
+
+    }
+
+
+    .login-description,
+
+    .login-visual {
+
+        margin-left: auto;
+
+        margin-right: auto;
+
+    }
+
+
+    .login-brand {
+
+        justify-content: center;
+
+        margin-bottom: 50px;
+
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .back-home {
+
+        top: 20px;
+
+        left: 20px;
+
+    }
+
+
+    .login-container {
+
+        padding: 100px 20px 50px;
+
+    }
+
+
+    .login-intro h1 {
+
+        font-size: 55px;
+
+        letter-spacing: -3px;
+
+    }
+
+
+    .login-card {
+
+        padding: 28px 22px;
+
+        border-radius: 22px;
+
+    }
+
+}
