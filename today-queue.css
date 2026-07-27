@@ -1,0 +1,319 @@
+:root{
+
+    --background:#f8f9f6;
+    --surface:#ffffff;
+    --surface-soft:#f1f4f0;
+
+    --text-primary:#25302b;
+    --text-secondary:#7b8580;
+
+    --sage:#91a99a;
+    --sage-dark:#789884;
+
+    --border:#e7ebe7;
+
+}
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+body{
+
+    font-family:"DM Sans",sans-serif;
+
+    background:var(--background);
+
+    color:var(--text-primary);
+
+}
+
+.queue-header{
+
+    height:80px;
+
+    background:white;
+
+    border-bottom:1px solid var(--border);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 50px;
+
+}
+
+.logo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+.logo-mark{
+
+    width:36px;
+
+    height:36px;
+
+    background:var(--sage-dark);
+
+    color:white;
+
+    border-radius:50%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.logo-name span{
+
+    color:var(--sage-dark);
+
+}
+
+.doctor-profile{
+
+    font-weight:600;
+
+}
+
+.queue-dashboard{
+
+    display:grid;
+
+    grid-template-columns:420px 1fr;
+
+    gap:40px;
+
+    padding:40px 50px;
+
+}
+
+.current-patient h1{
+
+    font-size:40px;
+
+    margin-bottom:35px;
+
+    font-family:"Manrope",sans-serif;
+
+}
+
+.current-patient h2{
+
+    margin-bottom:20px;
+
+}
+
+.current-card{
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:25px;
+
+    padding:30px;
+
+    box-shadow:0 20px 40px rgba(45,60,52,.06);
+
+}
+
+.queue-number{
+
+    background:var(--surface-soft);
+
+    padding:15px;
+
+    border-radius:15px;
+
+    text-align:center;
+
+    margin-bottom:25px;
+
+    font-weight:600;
+
+}
+
+.queue-number span{
+
+    color:var(--sage-dark);
+
+    font-size:28px;
+
+}
+
+.current-card p{
+
+    margin:18px 0;
+
+}
+
+.waiting-status{
+
+    color:#7f8b46;
+
+    font-weight:bold;
+
+}
+
+.call-btn{
+
+    width:100%;
+
+    margin-top:30px;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:14px;
+
+    background:var(--sage-dark);
+
+    color:white;
+
+    font-size:15px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.call-btn:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 15px 30px rgba(120,152,132,.25);
+
+}
+
+.waiting-queue{
+
+    background:white;
+
+    border-radius:25px;
+
+    border:1px solid var(--border);
+
+    padding:30px;
+
+    box-shadow:0 20px 40px rgba(45,60,52,.06);
+
+}
+
+.waiting-queue h2{
+
+    margin-bottom:25px;
+
+}
+
+.queue-table{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+.queue-row{
+
+    display:grid;
+
+    grid-template-columns:80px 1fr 140px;
+
+    align-items:center;
+
+    padding:18px;
+
+    border-radius:15px;
+
+    background:var(--surface-soft);
+
+    transition:.3s;
+
+}
+
+.queue-row:hover{
+
+    transform:translateX(6px);
+
+    background:#edf3ef;
+
+}
+
+.status{
+
+    text-align:center;
+
+    padding:8px;
+
+    border-radius:20px;
+
+    font-size:13px;
+
+}
+
+.waiting{
+
+    background:#dfe9e2;
+
+    color:#5f7d68;
+
+    font-weight:600;
+
+}
+
+@media(max-width:900px){
+
+.queue-dashboard{
+
+    grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:600px){
+
+.queue-header{
+
+    padding:0 20px;
+
+}
+
+.queue-dashboard{
+
+    padding:25px;
+
+}
+
+.current-patient h1{
+
+    font-size:30px;
+
+}
+
+}

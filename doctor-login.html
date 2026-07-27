@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Dashboard | CareFlow</title>
+
+<link rel="stylesheet" href="doctor-login.css">
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+<div class="logo">
+<div class="logo-mark">+</div>
+<div class="logo-name">Care<span>Flow</span></div>
+</div>
+
+<div class="doctor-info">
+Welcome, <strong>Dr. Sharma</strong>
+</div>
+
+</header>
+
+<div class="dashboard">
+
+<aside class="sidebar">
+
+<h3>Navigation</h3>
+
+<a href="#">🏠 Dashboard</a>
+<a href="#">📋 Today's Queue</a>
+<a href="#">👨‍⚕️ Patients</a>
+<a href="#">📊 Reports</a>
+<a href="#">🚪 Logout</a>
+
+</aside>
+
+<main class="content">
+
+<h1>Today's Queue</h1>
+
+<div class="stats">
+
+<div class="stat-card">
+<h2>12</h2>
+<p>Waiting</p>
+</div>
+
+<div class="stat-card">
+<h2>1</h2>
+<p>In Progress</p>
+</div>
+
+<div class="stat-card">
+<h2>8</h2>
+<p>Completed</p>
+</div>
+
+<div class="stat-card">
+<h2>21</h2>
+<p>Total Patients</p>
+</div>
+
+</div>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Queue</th>
+<th>Patient</th>
+<th>Time</th>
+<th>Status</th>
+<th>Action</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+
+<td>001</td>
+<td>Rahul Das</td>
+<td>09:00</td>
+<td><span class="waiting">Waiting</span></td>
+<td><button class="call-btn">Call</button></td>
+
+</tr>
+
+<tr>
+
+<td>002</td>
+<td>Priya Sharma</td>
+<td>09:15</td>
+<td><span class="waiting">Waiting</span></td>
+<td><button class="call-btn">Call</button></td>
+
+</tr>
+
+<tr>
+
+<td>003</td>
+<td>Ankit Roy</td>
+<td>09:30</td>
+<td><span class="progress">In Progress</span></td>
+
+<td>
+
+<button class="complete-btn">Complete</button>
+
+<button class="skip-btn">Skip</button>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
+
+<div class="current-card">
+
+<h2>Current Patient</h2>
+
+<p><strong>Queue :</strong> 003</p>
+<p><strong>Name :</strong> Ankit Roy</p>
+<p><strong>Doctor :</strong> Dr. Sharma</p>
+<p><strong>Reason :</strong> Fever & Cough</p>
+
+<div class="actions">
+
+<button class="complete-btn">
+Complete Patient
+</button>
+
+<button class="skip-btn">
+Skip Patient
+</button>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+</body>
+</html>
