@@ -107,7 +107,36 @@
                 <div>04</div>
 
                 <div>Patient D</div>
-
+<div class="active-consultation-section" style="background-color: #ffffff; border: 2px solid #385723; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+    <h3 style="color: #385723; margin-top: 0;">1) Active Consultation</h3>
+    <div style="background-color: #E2F0D9; padding: 12px; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #C5E0B4;">
+        <div>
+            <p style="margin: 4px 0; color: #385723;"><strong>Current Patient:</strong> Rahul Das</p>
+            <p style="margin: 4px 0; color: #385723;"><strong>Status:</strong> In Progress</p>
+        </div>
+        <button style="background-color: #385723; color: white; border: none; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+            Complete Visit
+        </button>
+    </div>
+</div>
+              <div style="margin-top: 15px; padding: 15px; border: 1px solid #dc3545; background: #fff5f5; border-radius: 6px;">
+    <label for="skip-reason"><strong>2) Skip Patient with Reason:</strong></label>
+    <select id="skip-reason" style="width: 100%; padding: 8px; margin: 8px 0; border-radius: 4px; border: 1px solid #ccc;">
+        <option>Patient Absent / Not Responding</option>
+        <option>Emergency Case Priority</option>
+        <option>Requested Delay by Patient</option>
+    </select>
+    <button onclick="alert('Patient skipped for: ' + document.getElementById('skip-reason').value)" style="background: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">Confirm Skip</button>
+</div>
+                <div style="margin-top: 20px; padding: 15px; border: 1px solid #6c757d; background: #f8f9fa; border-radius: 6px;">
+    <h3 style="margin-top: 0; color: #333;">3) Queue Analytics</h3>
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+        <div style="background: white; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">Total Registered: <strong>15</strong></div>
+        <div style="background: white; padding: 8px; border: 1px solid #ddd; border-radius: 4px; color: green;">Served Today: <strong>4</strong></div>
+        <div style="background: white; padding: 8px; border: 1px solid #ddd; border-radius: 4px; color: red;">Skipped: <strong>1</strong></div>
+        <div style="background: white; padding: 8px; border: 1px solid #ddd; border-radius: 4px; color: #007bff;">Remaining: <strong>10</strong></div>
+    </div>
+</div>
                 <div class="status waiting">
                     Waiting
                 </div>
