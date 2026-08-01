@@ -169,3 +169,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+function openPopup(){
+
+document.getElementById("confirmationPopup").style.display="flex";
+
+}
+
+function closePopup(){
+
+document.getElementById("confirmationPopup").style.display="none";
+
+}

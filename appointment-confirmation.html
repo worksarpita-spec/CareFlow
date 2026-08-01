@@ -7,6 +7,69 @@
 
     <link rel="stylesheet" href="style.css">
 </head>
+<!-- ===========================
+Appointment Success Popup
+=========================== -->
+
+<div id="confirmationPopup" class="popup-overlay">
+
+    <div class="popup-box">
+
+        <div class="success-circle">
+            ✓
+        </div>
+
+        <h2>Appointment Confirmed!</h2>
+
+        <p>
+            Your appointment has been booked successfully.
+        </p>
+
+        <div class="token-card">
+
+            <h3>Appointment Token</h3>
+
+            <p><strong>Patient</strong> : Rahul Das</p>
+
+            <p><strong>Doctor</strong> : Dr. A. Sharma</p>
+
+            <p><strong>Department</strong> : General Medicine</p>
+
+            <p><strong>Date</strong> : 20 August 2026</p>
+
+            <p><strong>Time</strong> : 10:30 AM</p>
+
+            <p><strong>Queue Number</strong></p>
+
+            <div class="queue-number-popup">
+                07
+            </div>
+
+            <p class="token-message">
+                Please arrive 15 minutes before your scheduled time.
+            </p>
+
+        </div>
+
+        <div class="popup-buttons">
+
+            <button class="download-btn">
+                📄 Download Token PDF
+            </button>
+
+            <button class="history-btn">
+                Appointment History
+            </button>
+
+            <button class="close-btn" onclick="closePopup()">
+                Close
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
 <body>
 
 <div class="container">
@@ -72,9 +135,9 @@
                 Cancel
             </button>
 
-            <button class="confirm">
-                Confirm Appointment
-            </button>
+            <button class="confirm" onclick="openPopup()">
+    Confirm Appointment
+</button>
 
         </div>
 
