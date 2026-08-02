@@ -1,59 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Appointment History | CareFlow</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointment History | CareFlow</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .history-page{min-height:100vh;background:var(--background);padding:24px 16px 60px}
+    .history-wrap{max-width:720px;margin:0 auto}
+    .history-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px}
+    .history-top a{color:var(--text-secondary);font-size:13px}
+    .history-top a:hover{color:var(--sage-dark)}
+    .history-card{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:28px 24px;box-shadow:0 20px 50px rgba(45,60,52,.06)}
+    .history-card h1{font-family:Manrope,sans-serif;font-size:clamp(24px,5vw,34px);letter-spacing:-1px;text-align:left;margin-bottom:6px}
+    .history-card .subtitle{text-align:left;color:var(--text-secondary);font-size:14px;margin-bottom:28px}
+    .appointment-box{background:var(--surface-soft);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px}
+    .appointment-header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+    .appointment-header h2{font-family:Manrope,sans-serif;font-size:18px;margin:0}
+    .status{font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px}
+    .status.completed{background:#dcece1;color:#5d8668}
+    .status.pending,.status.booked,.status.waiting{background:#fcf4e4;color:#8c8c5b}
+    .status.in_progress{background:#dcece1;color:#5f8a68}
+    .appointment-box p{font-size:13px;color:var(--text-secondary);margin:6px 0}
+    .appointment-box p strong{color:var(--text-primary)}
+    .empty-state{text-align:center;padding:40px 20px;color:var(--text-secondary);font-size:14px}
+    .empty-state a{color:var(--sage-dark);font-weight:600}
+  </style>
 </head>
-
-<body>
-
-<div class="history-container">
-
-    <div class="history-card">
-
-        <h1>Appointment History</h1>
-        <p class="subtitle">View your past appointments and their status.</p>
-
-        <!-- Appointment 1 -->
-        <div class="appointment-box">
-
-            <div class="appointment-header">
-                <h2>Dr. A. Sharma</h2>
-                <span class="status completed">Completed ✓</span>
-            </div>
-
-            <p><strong>Department:</strong> General Medicine</p>
-            <p><strong>Date & Time:</strong> 18 July 2026 • 11:00 AM</p>
-            <p><strong>Queue Number:</strong> 07</p>
-            <p><strong>Reason:</strong> Fever & Headache</p>
-
-            <button>View Details</button>
-
-        </div>
-
-        <!-- Appointment 2 -->
-        <div class="appointment-box">
-
-            <div class="appointment-header">
-                <h2>Dr. P. Das</h2>
-                <span class="status pending">Not Completed</span>
-            </div>
-
-            <p><strong>Department:</strong> Dermatology</p>
-            <p><strong>Date & Time:</strong> 25 July 2026 • 2:30 PM</p>
-            <p><strong>Queue Number:</strong> 15</p>
-            <p><strong>Reason:</strong> Skin Allergy</p>
-
-            <button>View Details</button>
-
-        </div>
-
+<body class="history-page">
+  <div class="history-wrap">
+    <div class="history-top">
+      <a href="patient-dashboard.html">← Dashboard</a>
+      <a href="book-appointment.html">+ Book new</a>
     </div>
-
-</div>
-
+    <div class="history-card">
+      <h1>Appointment History</h1>
+      <p class="subtitle">Past and current appointments for your account.</p>
+      <div id="historyList"><p class="empty-state">Loading…</p></div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const session = await requirePatientAuth();
+      if (!session) return;
+      const list = document.getElementById("historyList");
+      const { data: appts, error } = await supabase.from("appointments")
+        .select("id, appointment_date, time_slot, queue_number, status, reason, doctors ( full_name, department )")
+        .eq("patient_id", session.user.id)
+        .order("appointment_date", { ascending: false })
+        .order("time_slot", { ascending: false });
+      if (error) { list.innerHTML = `<p class="empty-state" style="color:#b06b6b;">Could not load history: ${error.message}</p>`; return; }
+      if (!appts || !appts.length) { list.innerHTML = `<p class="empty-state">No appointments yet. <a href="book-appointment.html">Book one →</a></p>`; return; }
+      list.innerHTML = appts.map(a => {
+        const doctor = a.doctors ? a.doctors.full_name : "Unknown";
+        const dept = a.doctors ? a.doctors.department : "—";
+        const dateStr = new Date(a.appointment_date + "T00:00:00").toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" });
+        const st = (a.status || "booked").toLowerCase();
+        const statusClass = st === "completed" ? "completed" : st === "in_progress" ? "in_progress" : "pending";
+        const statusLabel = st === "completed" ? "Completed ✓" : st === "in_progress" ? "In Progress" : st === "waiting" ? "Waiting" : "Booked";
+        return `<div class="appointment-box"><div class="appointment-header"><h2>Dr. ${doctor}</h2><span class="status ${statusClass}">${statusLabel}</span></div>
+          <p><strong>Department:</strong> ${dept || "—"}</p>
+          <p><strong>Date & Time:</strong> ${dateStr} • ${a.time_slot || "—"}</p>
+          <p><strong>Queue Number:</strong> ${a.queue_number != null ? String(a.queue_number).padStart(2, "0") : "—"}</p>
+          <p><strong>Reason:</strong> ${a.reason || "—"}</p></div>`;
+      }).join("");
+    });
+  </script>
 </body>
 </html>
