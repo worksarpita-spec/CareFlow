@@ -1,1 +1,158 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Patient Portal - Report Page</title> <style> body { font-family: system-ui, -apple-system, sans-serif; background-color: #f9fafb; margin: 0; padding: 0; } nav { background-color: #2563eb; color: white; padding: 1rem 1.5rem; display: flex; justify-content: space-between; align-items: center; } .nav-links { display: flex; gap: 1.25rem; align-items: center; } .nav-links a { color: #e0f2fe; text-decoration: none; font-size: 0.95rem; font-weight: 500; } .nav-links a:hover { text-decoration: underline; } .logout-btn { background-color: #ef4444; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.25rem; cursor: pointer; font-weight: 500; } .container { max-width: 600px; margin: 3rem auto; padding: 0 1rem; } .card { background: white; padding: 2rem; border-radius: 0.5rem; border: 1px solid #e5e7eb; box-shadow: 0 1px 3px rgba(0,0,0,0.05); } .card h2 { margin-top: 0; border-bottom: 2px solid #f3f4f6; padding-bottom: 0.5rem; color: #1f2937; } .form-group { margin-bottom: 1.5rem; } .form-group label { display: block; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem; color: #4b5563; } input[type="text"], select { width: 100%; padding: 0.6rem; border: 1px solid #d1d5db; border-radius: 0.25rem; box-sizing: border-box; } .upload-box { border: 2px dashed #3b82f6; padding: 2.5rem 1.5rem; text-align: center; border-radius: 0.5rem; color: #4b5563; background-color: #eff6ff; cursor: pointer; transition: background-color 0.2s; } .upload-box:hover { background-color: #dbeafe; } .upload-box input[type="file"] { display: none; } .upload-box p { margin: 0.5rem 0 0 0; font-size: 0.9rem; } .file-spec { font-size: 0.8rem; color: #6b7280; margin-top: 0.25rem; } #file-name-display { margin-top: 0.75rem; font-size: 0.85rem; color: #10b981; font-weight: 600; } .submit-btn { width: 100%; background-color: #10b981; color: white; border: none; padding: 0.75rem; border-radius: 0.25rem; font-weight: 500; cursor: pointer; font-size: 1rem; } .submit-btn:hover { background-color: #059669; } </style> </head> <body> <nav> <h1 style="margin:0; font-size:1.25rem;">Patient Portal</h1> <div class="nav-links"> <a href="index.html">← Back to Reviews</a> <button class="logout-btn" onclick="executeLogout()">Logout</button> </div> </nav> <main class="container"> <section class="card"> <h2>Medical Reports</h2> <p style="color: #6b7280; font-size: 0.9rem; margin-bottom: 1.5rem;"> Select your document files below to attach them to your history. </p> <form> <div class="form-group"> <label>Report Title / Description</label> <input type="text" placeholder="e.g., Annual Blood Count, X-Ray Scan" required> </div> <div class="form-group"> <label>Target Consultation Department</label> <select required> <option value="">Select department...</option> <option value="cardio">Cardiology</option> <option value="peds">Pediatrics</option> <option value="general">General Medicine</option> </select> </div> <div class="form-group"> <label>Upload Document</label> <div class="upload-box" onclick="document.getElementById('file-input').click()"> <span style="font-size: 2rem;">📁</span> <p><strong>Click to choose a file</strong> or drag it here</p> <div class="file-spec">Accepts PDF, JPG, PNG up to 10MB</div> <input type="file" id="file-input" accept=".pdf,.jpg,.png" required onchange="displayFileName(this)"> </div> <div id="file-name-display"></div> </div> <!-- UPDATED ACTION BUTTON ELEMENT --> <button type="submit"
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Reports | CareFlow</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .report-page{min-height:100vh;background:var(--background)}
+    .report-nav{background:#fff;border-bottom:1px solid var(--border);padding:16px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .report-nav a{color:var(--text-secondary);font-size:13px;text-decoration:none}
+    .report-container{max-width:600px;margin:32px auto;padding:0 16px 48px}
+    .report-card{background:#fff;border:1px solid var(--border);border-radius:18px;padding:28px 24px;margin-bottom:20px;box-shadow:0 12px 30px rgba(45,60,52,.05)}
+    .report-card h2{font-family:Manrope,sans-serif;font-size:22px;margin-bottom:8px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+    .form-group{margin-bottom:18px}
+    .form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:6px}
+    .form-group input,.form-group select{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;font-family:inherit;background:#fafcf9}
+    .upload-box{border:2px dashed var(--sage);padding:28px 16px;text-align:center;border-radius:12px;background:#f4f8f5;cursor:pointer}
+    .upload-box input[type=file]{display:none}
+    .upload-box p{margin:8px 0 0;font-size:13px;color:var(--text-secondary)}
+    #file-name-display{margin-top:10px;font-size:13px;font-weight:600;color:#10b981}
+    .submit-btn{width:100%;padding:14px;border:none;border-radius:12px;background:var(--sage-dark);color:#fff;font-weight:600;font-size:14px;cursor:pointer}
+    .submit-btn:disabled{opacity:.6;cursor:not-allowed}
+    #form-message{display:none;margin-bottom:16px;padding:12px;border-radius:10px;font-weight:600;font-size:13px}
+    .report-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border);gap:12px;flex-wrap:wrap}
+    .report-item:last-child{border-bottom:none}
+    .report-item h4{margin:0;font-size:14px}
+    .report-item p{margin:4px 0 0;font-size:12px;color:var(--text-secondary)}
+    .report-item a{font-size:13px;color:var(--sage-dark);font-weight:600;text-decoration:none}
+  </style>
+</head>
+<body class="report-page">
+  <nav class="report-nav">
+    <a href="patient-dashboard.html">← Back to Dashboard</a>
+    <button type="button" id="logoutBtn" style="background:none;border:none;color:var(--text-secondary);cursor:pointer;font-size:13px">Logout</button>
+  </nav>
+  <main class="report-container">
+    <section class="report-card">
+      <h2>Medical Reports</h2>
+      <p style="color:var(--text-secondary);font-size:13px;margin-bottom:18px">Upload document files to attach them to your history.</p>
+      <div id="form-message"></div>
+      <form id="reportUploadForm">
+        <div class="form-group">
+          <label for="reportTitle">Report Title / Description</label>
+          <input type="text" id="reportTitle" placeholder="e.g., Annual Blood Count, X-Ray Scan" required>
+        </div>
+        <div class="form-group">
+          <label for="reportDepartment">Target Consultation Department</label>
+          <select id="reportDepartment" required>
+            <option value="">Select department...</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Pediatrics">Pediatrics</option>
+            <option value="General Medicine">General Medicine</option>
+            <option value="Dermatology">Dermatology</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Upload Document</label>
+          <div class="upload-box" onclick="document.getElementById('file-input').click()">
+            <span style="font-size:1.8rem">📁</span>
+            <p><strong>Click to choose a file</strong></p>
+            <p style="font-size:11px">PDF, JPG, PNG up to 10MB</p>
+            <input type="file" id="file-input" accept=".pdf,.jpg,.jpeg,.png" required onchange="displayFileName(this)">
+          </div>
+          <div id="file-name-display"></div>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBtn">Upload Report</button>
+      </form>
+    </section>
+    <section class="report-card">
+      <h2>Your Uploaded Reports</h2>
+      <div id="reportsList"><p style="color:var(--text-secondary);font-size:13px">Loading...</p></div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    const BUCKET_NAME = "medical-reports";
+    const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024;
+    let currentUserId = null;
+    function displayFileName(input) {
+      const display = document.getElementById("file-name-display");
+      if (input.files && input.files.length) {
+        const file = input.files[0];
+        if (file.size > MAX_FILE_SIZE_BYTES) {
+          display.style.color = "#dc2626";
+          display.textContent = `"${file.name}" is over 10MB.`;
+          input.value = "";
+        } else {
+          display.style.color = "#10b981";
+          display.textContent = "Selected: " + file.name;
+        }
+      } else display.textContent = "";
+    }
+    function showFormMessage(text, type) {
+      const box = document.getElementById("form-message");
+      box.style.display = "block"; box.textContent = text;
+      box.style.background = type === "error" ? "#fee2e2" : "#d1fae5";
+      box.style.color = type === "error" ? "#991b1b" : "#065f46";
+      box.style.border = "1px solid " + (type === "error" ? "#fecaca" : "#a7f3d0");
+    }
+    async function loadReports() {
+      const listEl = document.getElementById("reportsList");
+      const { data: reports, error } = await supabase.from("medical_reports")
+        .select("id, title, department, file_url, created_at")
+        .eq("patient_id", currentUserId).order("created_at", { ascending: false });
+      if (error) { listEl.innerHTML = `<p style="color:#dc2626;font-size:13px">${error.message}</p>`; return; }
+      if (!reports || !reports.length) { listEl.innerHTML = `<p style="color:var(--text-secondary);font-size:13px">No reports yet.</p>`; return; }
+      const rows = await Promise.all(reports.map(async (report) => {
+        const { data: signed } = await supabase.storage.from(BUCKET_NAME).createSignedUrl(report.file_url, 3600);
+        const viewUrl = signed ? signed.signedUrl : "#";
+        const dateDisplay = new Date(report.created_at).toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric" });
+        return `<div class="report-item"><div><h4>${report.title}</h4><p>${report.department || "—"} • ${dateDisplay}</p></div>
+          <a href="${viewUrl}" target="_blank" rel="noopener">View</a></div>`;
+      }));
+      listEl.innerHTML = rows.join("");
+    }
+    document.addEventListener("DOMContentLoaded", async () => {
+      const session = await requirePatientAuth();
+      if (!session) return;
+      currentUserId = session.user.id;
+      document.getElementById("logoutBtn").addEventListener("click", () => executeLogout("patient-login.html"));
+      loadReports();
+      const form = document.getElementById("reportUploadForm");
+      const submitBtn = document.getElementById("submitBtn");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const title = document.getElementById("reportTitle").value.trim();
+        const department = document.getElementById("reportDepartment").value;
+        const file = document.getElementById("file-input").files[0];
+        if (!title || !department || !file) { showFormMessage("Please fill all fields and choose a file.", "error"); return; }
+        if (file.size > MAX_FILE_SIZE_BYTES) { showFormMessage("File too large (max 10MB).", "error"); return; }
+        submitBtn.disabled = true; submitBtn.textContent = "Uploading...";
+        const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+        const storagePath = currentUserId + "/" + Date.now() + "_" + safeFileName;
+        const { error: uploadError } = await supabase.storage.from(BUCKET_NAME).upload(storagePath, file, { upsert: false });
+        if (uploadError) {
+          showFormMessage("Upload failed: " + uploadError.message, "error");
+          submitBtn.disabled = false; submitBtn.textContent = "Upload Report"; return;
+        }
+        const { error: insertError } = await supabase.from("medical_reports").insert({
+          patient_id: currentUserId, title, department, file_url: storagePath
+        });
+        if (insertError) {
+          showFormMessage("Record save failed: " + insertError.message, "error");
+          submitBtn.disabled = false; submitBtn.textContent = "Upload Report"; return;
+        }
+        showFormMessage("Report uploaded successfully.", "success");
+        form.reset(); document.getElementById("file-name-display").textContent = "";
+        submitBtn.disabled = false; submitBtn.textContent = "Upload Report";
+        loadReports();
+      });
+    });
+  </script>
+</body>
+</html>
+
