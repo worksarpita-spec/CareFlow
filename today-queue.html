@@ -1,227 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Today's Queue | CareFlow</title>
-
-    <link rel="stylesheet" href="today-queue.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Appointments | CareFlow</title>
+  <link rel="stylesheet" href="today-queue.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-
 <body>
-
-<header class="queue-header">
-
-    <div class="logo">
-        <div class="logo-mark">+</div>
-        <div class="logo-name">Care<span>Flow</span></div>
-    </div>
-
-    <div class="doctor-profile">
-        Dr. Sharma
-    </div>
-
-</header>
-
-
-<main class="queue-dashboard">
-
+  <header class="queue-header">
+    <div class="logo"><div class="logo-mark">+</div><div class="logo-name">Care<span>Flow</span></div></div>
+    <div class="doctor-profile"><a href="patient-dashboard.html" style="color:inherit;text-decoration:none">← Back to Dashboard</a></div>
+  </header>
+  <main class="queue-dashboard">
     <section class="current-patient">
-
-        <h1>Today's Queue</h1>
-
-        <h2>Current Patient</h2>
-
-        <div class="current-card">
-
-            <div class="queue-number">
-                Queue No. <span>01</span>
-            </div>
-
-            <p><strong>Patient:</strong> Rahul Das</p>
-
-            <p><strong>Doctor:</strong> Dr. Sharma</p>
-
-            <p>
-                <strong>Status:</strong>
-                <span class="waiting-status">WAITING</span>
-            </p>
-
-            <button class="call-btn">
-                Call Next Patient
-            </button>
-
-        </div>
-
+      <h1>My Appointments</h1>
+      <h2>Your Current Status</h2>
+      <div class="current-card" id="myStatusCard"><p>Loading...</p></div>
     </section>
-
-
     <section class="waiting-queue">
-
-        <h2>Waiting Queue</h2>
-
-        <div class="queue-table">
-
-            <div class="queue-row">
-
-                <div>01</div>
-
-                <div>Patient A</div>
-
-                <div class="status waiting">
-                    Waiting
-                </div>
-
-            </div>
-
-            <div class="queue-row">
-
-                <div>02</div>
-
-                <div>Patient B</div>
-
-                <div class="status waiting">
-                    Waiting
-                </div>
-
-            </div>
-
-            <div class="queue-row">
-
-                <div>03</div>
-
-                <div>Patient C</div>
-
-                <div class="status waiting">
-                    Waiting
-                </div>
-
-            </div>
-
-            <div class="queue-row">
-
-                <div>04</div>
-
-                <div>Patient D</div>
-
-                <div class="status waiting">
-                    Waiting
-                </div>
-
-            </div>
-
-        </div>
-
+      <h2>Your Upcoming Appointments</h2>
+      <div class="queue-table" id="upcomingTable"><p>Loading...</p></div>
     </section>
-
-</main>
-<section class="queue-analytics">
-
-<h2>Queue Analytics</h2>
-
-<div class="analytics-grid">
-
-<div class="analytics-card">
-
-<h3>18</h3>
-<p>Total Patients</p>
-
-</div>
-
-<div class="analytics-card">
-
-<h3>12</h3>
-<p>Waiting</p>
-
-</div>
-
-<div class="analytics-card">
-
-<h3>5</h3>
-<p>Completed</p>
-
-</div>
-
-<div class="analytics-card">
-
-<h3>1</h3>
-<p>In Progress</p>
-
-</div>
-
-</div>
-
-<div class="progress-box">
-
-<p>Today's Progress</p>
-
-<div class="progress-bar">
-
-<div class="progress-fill"></div>
-
-</div>
-
-<span>65% Completed</span>
-
-</div>
-
-</section>
-<section class="active-consultation">
-
-<h2>Active Consultation</h2>
-
-<div class="consultation-card">
-
-<p><strong>Patient</strong></p>
-<h3>Rahul Das</h3>
-
-<hr>
-
-<p><strong>Reason</strong></p>
-<p>Fever & Headache</p>
-
-<hr>
-
-<p><strong>Appointment Time</strong></p>
-<p>09:30 AM</p>
-
-<hr>
-
-<p><strong>Consultation Type</strong></p>
-<p>In-Person</p>
-
-<hr>
-
-<p><strong>Status</strong></p>
-
-<span class="consult-status">
-In Progress
-</span>
-
-<div class="consult-buttons">
-
-<button class="complete-btn">
-
-Complete Consultation
-
-</button>
-
-<button class="skip-btn">
-
-Skip Patient
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    function todayISO() { return new Date().toISOString().split("T")[0]; }
+    document.addEventListener("DOMContentLoaded", async () => {
+      const session = await requirePatientAuth();
+      if (!session) return;
+      const patientId = session.user.id;
+      const statusCard = document.getElementById("myStatusCard");
+      const upcomingTable = document.getElementById("upcomingTable");
+      const { data: appts, error } = await supabase.from("appointments")
+        .select("id, appointment_date, time_slot, queue_number, status, reason, doctors ( full_name, department )")
+        .eq("patient_id", patientId).in("status", ["booked", "waiting", "in_progress"])
+        .order("appointment_date", { ascending: true }).order("time_slot", { ascending: true });
+      if (error) {
+        statusCard.innerHTML = `<p style="color:#b06b6b">Error: ${error.message}</p>`;
+        upcomingTable.innerHTML = ""; return;
+      }
+      if (!appts || !appts.length) {
+        statusCard.innerHTML = `<p style="color:var(--text-secondary)">No active appointments. <a href="book-appointment.html" style="color:var(--sage-dark);font-weight:600">Book one →</a></p>`;
+        upcomingTable.innerHTML = `<p style="color:var(--text-secondary)">Nothing scheduled yet.</p>`; return;
+      }
+      const today = todayISO();
+      const todaysAppt = appts.find(a => a.appointment_date === today);
+      if (todaysAppt) {
+        const doctorName = todaysAppt.doctors ? todaysAppt.doctors.full_name : "Unknown";
+        const statusLabel = todaysAppt.status === "in_progress" ? "IN PROGRESS" : todaysAppt.status === "waiting" ? "WAITING" : "BOOKED";
+        statusCard.innerHTML = `<div class="queue-number">Queue No. <span>${todaysAppt.queue_number != null ? String(todaysAppt.queue_number).padStart(2,"0") : "—"}</span></div>
+          <p><strong>Doctor:</strong> Dr. ${doctorName}</p>
+          <p><strong>Department:</strong> ${todaysAppt.doctors ? todaysAppt.doctors.department : "—"}</p>
+          <p><strong>Time Slot:</strong> ${todaysAppt.time_slot}</p>
+          <p><strong>Status:</strong> <span class="waiting-status">${statusLabel}</span></p>`;
+      } else {
+        statusCard.innerHTML = `<p style="color:var(--text-secondary)">No appointment for today. Your next one is listed below.</p>`;
+      }
+      upcomingTable.innerHTML = appts.map(appt => {
+        const doctorName = appt.doctors ? appt.doctors.full_name : "Unknown";
+        const dateDisplay = new Date(appt.appointment_date + "T00:00:00").toLocaleDateString("en-US", { day: "numeric", month: "short" });
+        const statusLabel = appt.status === "in_progress" ? "In Progress" : appt.status === "waiting" ? "Waiting" : "Booked";
+        return `<div class="queue-row"><div>${appt.queue_number != null ? String(appt.queue_number).padStart(2,"0") : "—"}</div>
+          <div>Dr. ${doctorName} · ${dateDisplay}, ${appt.time_slot}</div>
+          <div class="status waiting">${statusLabel}</div></div>`;
+      }).join("");
+    });
+  </script>
 </body>
-
-</html>                                  
+</html>
+                         
