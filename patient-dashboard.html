@@ -1,621 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Patient Dashboard | CareFlow</title>
-
-
-    <!-- Main Website CSS -->
-
-    <link rel="stylesheet" href="style.css">
-
-
-    <!-- Patient Dashboard CSS -->
-
-    <link rel="stylesheet" href="patient-dashboard.css">
-
-
-    <!-- Google Fonts -->
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Dashboard | CareFlow</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="patient-dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-
-
 <body class="dashboard-page">
-
-
-    <!-- =====================================
-         SIDEBAR
-    ====================================== -->
-
-    <aside class="dashboard-sidebar">
-
-
-        <!-- LOGO -->
-
-        <a href="../index.html" class="logo">
-
-            <span class="logo-mark">+</span>
-
-            <span class="logo-name">
-
-                Care<span>Flow</span>
-
-            </span>
-
-        </a>
-
-
-        <!-- NAVIGATION -->
-
-        <nav class="dashboard-nav">
-
-
-            <!-- Dashboard -->
-
-            <a href="patient-dashboard.html"
-               class="dashboard-nav-item active">
-
-                <span>⌂</span>
-
-                <span>Dashboard</span>
-
-            </a>
-
-
-            <!-- Book Appointment -->
-
-            <a href="book-appointment.html"
-               class="dashboard-nav-item">
-
-                <span>＋</span>
-
-                <span>Book Appointment</span>
-
-            </a>
-
-
-            <!-- My Appointments -->
-
-            <a href="today-queue.html"
-               class="dashboard-nav-item">
-
-                <span>◷</span>
-
-                <span>My Appointments</span>
-
-            </a>
-
-
-            <!-- Appointment History -->
-
-            <a href="appointment-history.html"
-               class="dashboard-nav-item">
-
-                <span>✓</span>
-
-                <span>Appointment History</span>
-
-            </a>
-
-
-        </nav>
-
-
-        <!-- SIDEBAR BOTTOM -->
-
-        <div class="sidebar-bottom">
-
-
-            <!-- Back to Home -->
-
-            <a href="../index.html"
-               class="dashboard-nav-item">
-
-                <span>←</span>
-
-                <span>Back to Home</span>
-
-            </a>
-
-
-            <!-- Logout -->
-
-            <a href="patient-login.html"
-               class="dashboard-nav-item logout">
-
-                <span>↪</span>
-
-                <span>Logout</span>
-
-            </a>
-
-
+  <aside class="dashboard-sidebar">
+    <a href="index.html" class="logo">
+      <span class="logo-mark">+</span>
+      <span class="logo-name">Care<span>Flow</span></span>
+    </a>
+    <nav class="dashboard-nav">
+      <a href="patient-dashboard.html" class="dashboard-nav-item active"><span>⌂</span><span>Dashboard</span></a>
+      <a href="book-appointment.html" class="dashboard-nav-item"><span>＋</span><span>Book Appointment</span></a>
+      <a href="today-queue.html" class="dashboard-nav-item"><span>◷</span><span>My Appointments</span></a>
+      <a href="appointment-history.html" class="dashboard-nav-item"><span>✓</span><span>Appointment History</span></a>
+      <a href="report.html" class="dashboard-nav-item"><span>📄</span><span>Medical Reports</span></a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a href="index.html" class="dashboard-nav-item"><span>←</span><span>Back to Home</span></a>
+      <a href="patient-login.html" class="dashboard-nav-item logout" id="logoutBtn"><span>↪</span><span>Logout</span></a>
+    </div>
+  </aside>
+  <main class="dashboard-main">
+    <header class="dashboard-header">
+      <div class="dashboard-welcome">
+        <p class="eyebrow">PATIENT PORTAL</p>
+        <h1 id="welcomeTitle">Good day 👋</h1>
+        <p>Here's an overview of your healthcare journey.</p>
+      </div>
+      <div class="patient-profile">
+        <div class="profile-avatar" id="profileAvatar">P</div>
+        <div class="profile-details">
+          <strong id="profileName">Patient</strong>
+          <span id="profileEmail">Patient Account</span>
         </div>
-
-
-    </aside>
-
-
-
-    <!-- =====================================
-         MAIN DASHBOARD
-    ====================================== -->
-
-    <main class="dashboard-main">
-
-
-        <!-- =================================
-             HEADER
-        ================================== -->
-
-        <header class="dashboard-header">
-
-
-            <div class="dashboard-welcome">
-
-
-                <p class="eyebrow">
-
-                    PATIENT PORTAL
-
-                </p>
-
-
-                <h1>
-
-                    Good morning, Patient 👋
-
-                </h1>
-
-
-                <p>
-
-                    Here's an overview of your healthcare journey.
-
-                </p>
-
-
-            </div>
-
-
-
-            <!-- PATIENT PROFILE -->
-
-            <div class="patient-profile">
-
-
-                <div class="profile-avatar">
-
-                    P
-
-                </div>
-
-
-                <div class="profile-details">
-
-
-                    <strong>
-
-                        Patient
-
-                    </strong>
-
-
-                    <span>
-
-                        Patient Account
-
-                    </span>
-
-
-                </div>
-
-
-            </div>
-
-
-        </header>
-
-
-
-        <!-- =================================
-             QUICK ACTIONS
-        ================================== -->
-
-        <section class="dashboard-section">
-
-
-            <div class="section-title">
-
-
-                <div>
-
-
-                    <p class="eyebrow">
-
-                        QUICK ACTIONS
-
-                    </p>
-
-
-                    <h2>
-
-                        What would you like to do?
-
-                    </h2>
-
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- ACTION CARDS -->
-
-            <div class="dashboard-action-grid">
-
-
-                <!-- BOOK APPOINTMENT -->
-
-                <a href="book-appointment.html"
-                   class="dashboard-action-card">
-
-
-                    <div class="action-icon">
-
-                        +
-
-                    </div>
-
-
-                    <div class="action-content">
-
-
-                        <h3>
-
-                            Book Appointment
-
-                        </h3>
-
-
-                        <p>
-
-                            Find a doctor and choose a convenient time slot.
-
-                        </p>
-
-
-                    </div>
-
-
-                    <span class="action-arrow">
-
-                        ↗
-
-                    </span>
-
-
-                </a>
-
-
-
-                <!-- MY APPOINTMENTS -->
-
-                <a href="today-queue.html"
-                   class="dashboard-action-card">
-
-
-                    <div class="action-icon">
-
-                        ◷
-
-                    </div>
-
-
-                    <div class="action-content">
-
-
-                        <h3>
-
-                            My Appointments
-
-                        </h3>
-
-
-                        <p>
-
-                            View your upcoming scheduled appointments.
-
-                        </p>
-
-
-                    </div>
-
-
-                    <span class="action-arrow">
-
-                        ↗
-
-                    </span>
-
-
-                </a>
-
-
-
-                <!-- APPOINTMENT HISTORY -->
-
-                <a href="appointment-history.html"
-                   class="dashboard-action-card">
-
-
-                    <div class="action-icon">
-
-                        ✓
-
-                    </div>
-
-
-                    <div class="action-content">
-
-
-                        <h3>
-
-                            Appointment History
-
-                        </h3>
-
-
-                        <p>
-
-                            View your previous consultations and appointments.
-
-                        </p>
-
-
-                    </div>
-
-
-                    <span class="action-arrow">
-
-                        ↗
-
-                    </span>
-
-
-                </a>
-
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =================================
-             UPCOMING APPOINTMENT
-        ================================== -->
-
-        <section class="dashboard-section">
-
-
-            <div class="section-title">
-
-
-                <div>
-
-
-                    <p class="eyebrow">
-
-                        YOUR NEXT APPOINTMENT
-
-                    </p>
-
-
-                    <h2>
-
-                        Upcoming appointment
-
-                    </h2>
-
-
-                </div>
-
-
-                <a href="my-appointments.html"
-                   class="view-all">
-
-                    View all →
-
-                </a>
-
-
-            </div>
-
-
-
-            <!-- APPOINTMENT CARD -->
-
-            <div class="upcoming-appointment">
-
-
-                <!-- DATE -->
-
-                <div class="appointment-date">
-
-
-                    <span>
-
-                        JUL
-
-                    </span>
-
-
-                    <strong>
-
-                        25
-
-                    </strong>
-
-
-                </div>
-
-
-
-                <!-- INFORMATION -->
-
-                <div class="appointment-info">
-
-
-                    <span class="appointment-status">
-
-                        CONFIRMED
-
-                    </span>
-
-
-                    <h3>
-
-                        No upcoming appointment
-
-                    </h3>
-
-
-                    <p>
-
-                        Book an appointment to see your upcoming consultation here.
-
-                    </p>
-
-
-                </div>
-
-
-
-                <!-- ACTION -->
-
-                <a href="book-appointment.html"
-                   class="appointment-action">
-
-                    Book Now →
-
-                </a>
-
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- =================================
-             QUEUE STATUS
-        ================================== -->
-
-        <section class="dashboard-section">
-
-
-            <div class="section-title">
-
-
-                <div>
-
-
-                    <p class="eyebrow">
-
-                        QUEUE MANAGEMENT
-
-                    </p>
-
-
-                    <h2>
-
-                        Your queue status
-
-                    </h2>
-
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- QUEUE CARD -->
-
-            <div class="queue-dashboard-card">
-
-
-                <div class="queue-empty">
-
-
-                    <div class="queue-empty-icon">
-
-                        №
-
-                    </div>
-
-
-                    <h3>
-
-                        You're not currently in a queue
-
-                    </h3>
-
-
-                    <p>
-
-                        Once you book an appointment and check in,
-                        your queue position will appear here.
-
-                    </p>
-
-
-                    <a href="book-appointment.html"
-                       class="primary-button">
-
-
-                        Book an Appointment
-
-
-                        <span>
-
-                            ↗
-
-                        </span>
-
-
-                    </a>
-
-
-                </div>
-
-
-            </div>
-
-
-        </section>
-
-
-    </main>
-
-
+      </div>
+    </header>
+    <section class="dashboard-section">
+      <div class="section-title"><div><p class="eyebrow">QUICK ACTIONS</p><h2>What would you like to do?</h2></div></div>
+      <div class="dashboard-action-grid">
+        <a href="book-appointment.html" class="dashboard-action-card">
+          <div class="action-icon">+</div>
+          <div class="action-content"><h3>Book Appointment</h3><p>Find a doctor and choose a convenient time slot.</p></div>
+          <span class="action-arrow">↗</span>
+        </a>
+        <a href="today-queue.html" class="dashboard-action-card">
+          <div class="action-icon">◷</div>
+          <div class="action-content"><h3>My Appointments</h3><p>View your upcoming scheduled appointments.</p></div>
+          <span class="action-arrow">↗</span>
+        </a>
+        <a href="appointment-history.html" class="dashboard-action-card">
+          <div class="action-icon">✓</div>
+          <div class="action-content"><h3>Appointment History</h3><p>View your previous consultations and appointments.</p></div>
+          <span class="action-arrow">↗</span>
+        </a>
+      </div>
+    </section>
+    <section class="dashboard-section">
+      <div class="section-title">
+        <div><p class="eyebrow">YOUR NEXT APPOINTMENT</p><h2>Upcoming appointment</h2></div>
+        <a href="today-queue.html" class="view-all">View all →</a>
+      </div>
+      <div class="upcoming-appointment" id="upcomingCard">
+        <div class="appointment-date"><span>—</span><strong>—</strong></div>
+        <div class="appointment-info">
+          <span class="appointment-status">NONE</span>
+          <h3>No upcoming appointment</h3>
+          <p>Book an appointment to see your upcoming consultation here.</p>
+        </div>
+        <a href="book-appointment.html" class="appointment-action">Book Now →</a>
+      </div>
+    </section>
+    <section class="dashboard-section">
+      <div class="section-title"><div><p class="eyebrow">QUEUE MANAGEMENT</p><h2>Your queue status</h2></div></div>
+      <div class="queue-dashboard-card" id="queueCard">
+        <div class="queue-empty">
+          <div class="queue-empty-icon">№</div>
+          <h3>You're not currently in a queue</h3>
+          <p>Once you book an appointment and check in, your queue position will appear here.</p>
+          <a href="book-appointment.html" class="primary-button">Book an Appointment <span>↗</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const session = await requirePatientAuth();
+      if (!session) return;
+      const user = session.user;
+      const name = user.user_metadata?.full_name || user.email?.split("@")[0] || "Patient";
+      document.getElementById("welcomeTitle").textContent = "Good day, " + name + " 👋";
+      document.getElementById("profileAvatar").textContent = (name[0] || "P").toUpperCase();
+      document.getElementById("profileName").textContent = name;
+      document.getElementById("profileEmail").textContent = user.email || "Patient Account";
+      document.getElementById("logoutBtn").addEventListener("click", (e) => {
+        e.preventDefault(); executeLogout("patient-login.html");
+      });
+      const today = new Date().toISOString().split("T")[0];
+      const { data: appts } = await supabase.from("appointments")
+        .select("id, appointment_date, time_slot, queue_number, status, reason, doctors ( full_name, department )")
+        .eq("patient_id", user.id).in("status", ["booked", "waiting", "in_progress"])
+        .gte("appointment_date", today).order("appointment_date", { ascending: true })
+        .order("time_slot", { ascending: true }).limit(1);
+      const card = document.getElementById("upcomingCard");
+      if (appts && appts.length) {
+        const a = appts[0];
+        const d = new Date(a.appointment_date + "T00:00:00");
+        const doctor = a.doctors ? a.doctors.full_name : "Doctor";
+        const dept = a.doctors ? a.doctors.department : "";
+        card.innerHTML = `<div class="appointment-date"><span>${d.toLocaleString("en-US",{month:"short"}).toUpperCase()}</span><strong>${d.getDate()}</strong></div>
+          <div class="appointment-info"><span class="appointment-status">${(a.status||"booked").toUpperCase().replace("_"," ")}</span>
+          <h3>Dr. ${doctor}</h3>
+          <p>${dept ? dept + " · " : ""}${a.time_slot || ""} · Queue #${a.queue_number != null ? String(a.queue_number).padStart(2,"0") : "—"}</p></div>
+          <a href="today-queue.html" class="appointment-action">View details →</a>`;
+      }
+      const { data: todayAppts } = await supabase.from("appointments")
+        .select("id, queue_number, status, time_slot, doctors ( full_name )")
+        .eq("patient_id", user.id).eq("appointment_date", today)
+        .in("status", ["booked", "waiting", "in_progress"]).limit(1);
+      const queueCard = document.getElementById("queueCard");
+      if (todayAppts && todayAppts.length) {
+        const t = todayAppts[0];
+        queueCard.innerHTML = `<div style="text-align:center;max-width:480px;margin:auto">
+          <div class="queue-empty-icon">№</div>
+          <h3 style="margin-top:18px;font-size:17px">Queue #${t.queue_number != null ? String(t.queue_number).padStart(2,"0") : "—"}</h3>
+          <p style="margin-top:8px;color:var(--text-secondary);font-size:13px">Dr. ${t.doctors ? t.doctors.full_name : "—"} · ${t.time_slot || ""} · <strong>${(t.status||"booked").toUpperCase().replace("_"," ")}</strong></p>
+          <a href="today-queue.html" class="primary-button" style="display:inline-flex;margin-top:22px">Open my appointments <span>↗</span></a></div>`;
+      }
+    });
+  </script>
 </body>
-
 </html>
