@@ -1,7 +1,13 @@
 
-// ===============================
-// CareFlow Patient Login Script
-// ===============================
+const SUPABASE_URL = "https://vjxtbfyvttpbcupxoong.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZqeHRiZnl2dHRwYmN1cHhvb25nIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODU1ODcwOTksImV4cCI6MjEwMTE2MzA5OX0.JOX-3aA30_nIBA5l3avirnb4zvPQY3c5_ec69QANlF0";
+
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY
+);
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -9,20 +15,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
 
-    const loginButton = document.querySelector(".login-button");
     const registerButton = document.querySelector(".register-button");
     const forgotPassword = document.querySelector(".password-label a");
 
-    //-------------------------------------------------------
-    // Create Message Box
-    //-------------------------------------------------------
 
     const message = document.createElement("div");
+
     message.style.marginTop = "20px";
     message.style.padding = "12px";
-    message.style.borderRadius = "12px";
+    message.style.borderRadius = "10px";
     message.style.display = "none";
     message.style.fontWeight = "600";
+
     loginForm.appendChild(message);
 
     function showMessage(text, type) {
@@ -31,12 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
         message.style.display = "block";
 
         if (type === "success") {
+
             message.style.background = "#d4edda";
             message.style.color = "#155724";
             message.style.border = "1px solid #c3e6cb";
-        }
 
-        else {
+        } else {
 
             message.style.background = "#f8d7da";
             message.style.color = "#721c24";
@@ -46,137 +50,110 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 
-    //-------------------------------------------------------
-    // Login
-    //-------------------------------------------------------
 
-    loginForm.addEventListener("submit", function (e) {
+    loginForm.addEventListener("submit", async (e) => {
 
         e.preventDefault();
 
         const userEmail = email.value.trim();
         const userPassword = password.value.trim();
 
-        //---------------------------------------------------
-
-        if (userEmail === "") {
+        if (!userEmail) {
 
             showMessage("Please enter your email.", "error");
             return;
 
         }
 
-        if (userPassword === "") {
+        if (!userPassword) {
 
             showMessage("Please enter your password.", "error");
             return;
 
         }
 
-        //---------------------------------------------------
-        // Demo Login
-        //---------------------------------------------------
 
-        loginButton.disabled = true;
-        loginButton.innerHTML = "Logging in...";
+        const { data, error } =
+            await supabaseClient.auth.signInWithPassword({
 
-        setTimeout(() => {
+                email: userEmail,
+                password: userPassword
 
-            // Demo Credentials
+            });
 
-            if (
-                userEmail === "patient@careflow.com" &&
-                userPassword === "123456"
-            ) {
+        if (error) {
 
-                localStorage.setItem("patientEmail", userEmail);
-                localStorage.setItem("loggedIn", "true");
-
-                showMessage("Login Successful!", "success");
-
-                setTimeout(() => {
-
-                    window.location.href = "patient-dashboard.html";
-
-                }, 1200);
-
-            }
-
-            else {
-
-                showMessage(
-                    "Invalid Email or Password.",
-                    "error"
-                );
-
-                loginButton.disabled = false;
-                loginButton.innerHTML =
-                    "Login to Patient Portal <span>→</span>";
-
-            }
-
-        }, 1200);
-
-    });
-
-    //-------------------------------------------------------
-    // Register Button
-    //-------------------------------------------------------
-
-    registerButton.addEventListener("click", () => {
-
-        window.location.href = "patient-dashboard.html";
-
-    });
-
-    //-------------------------------------------------------
-    // Forgot Password
-    //-------------------------------------------------------
-
-    forgotPassword.addEventListener("click", function (e) {
-
-        e.preventDefault();
-
-        const userEmail = prompt(
-            "Enter your registered email address:"
-        );
-
-        if (userEmail === null) return;
-
-        if (userEmail.trim() === "") {
-
-            alert("Email cannot be empty.");
-
+            showMessage(error.message, "error");
             return;
 
         }
 
-        alert(
-            "Password reset link has been sent to:\n\n" +
-            userEmail
-        );
+        showMessage("Login Successful!", "success");
+
+        localStorage.setItem("loggedIn", "true");
+
+        setTimeout(() => {
+
+            window.location.href = "patient-dashboard.html";
+
+        }, 1000);
 
     });
 
-    //-------------------------------------------------------
-    // Auto Login
-    //-------------------------------------------------------
+    forgotPassword.addEventListener("click", async (e) => {
 
-    if (localStorage.getItem("loggedIn") === "true") {
+        e.preventDefault();
 
-        window.location.href = "patient-dashboard.html";
+        const userEmail = prompt(
+            "Enter your registered email:"
+        );
 
-    }
+        if (!userEmail) return;
+
+        const { error } =
+            await supabaseClient.auth.resetPasswordForEmail(
+                userEmail
+            );
+
+        if (error) {
+
+            alert(error.message);
+
+        } else {
+
+            alert("Password reset email sent!");
+
+        }
+
+    });
+
+
+    (async () => {
+
+        const {
+            data: { session }
+
+        } = await supabaseClient.auth.getSession();
+
+        if (session) {
+
+            window.location.href = "patient-dashboard.html";
+
+        }
+
+    })();
 
 });
-function openPopup(){
 
-document.getElementById("confirmationPopup").style.display="flex";
+
+function openPopup() {
+
+    document.getElementById("confirmationPopup").style.display = "flex";
 
 }
 
-function closePopup(){
+function closePopup() {
 
-document.getElementById("confirmationPopup").style.display="none";
+    document.getElementById("confirmationPopup").style.display = "none";
 
 }
