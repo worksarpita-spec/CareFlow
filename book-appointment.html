@@ -1,65 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Appointment | CareFlow</title>
-
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment | CareFlow</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .book-page{min-height:100vh;background:var(--background);padding:24px 16px 60px}
+    .book-wrap{max-width:560px;margin:0 auto}
+    .book-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:28px}
+    .book-top a{color:var(--text-secondary);font-size:13px}
+    .book-top a:hover{color:var(--sage-dark)}
+    .book-card{background:var(--surface);border:1px solid var(--border);border-radius:22px;padding:32px 28px;box-shadow:0 20px 50px rgba(45,60,52,.06)}
+    .book-card h1{font-family:Manrope,sans-serif;font-size:clamp(26px,5vw,34px);letter-spacing:-1px;margin-bottom:6px;text-align:left}
+    .book-card .subtitle{text-align:left;color:var(--text-secondary);font-size:14px;margin-bottom:28px}
+    .input-box{margin-bottom:18px}
+    .input-box label{display:block;font-size:13px;font-weight:600;margin-bottom:8px}
+    .input-box input,.input-box select,.input-box textarea{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:12px;font-size:14px;font-family:inherit;background:#fafcf9;outline:none}
+    .input-box input:focus,.input-box select:focus,.input-box textarea:focus{border-color:var(--sage);box-shadow:0 0 0 4px rgba(145,169,154,.12)}
+    .input-box textarea{resize:vertical;min-height:90px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    @media(max-width:520px){.form-row{grid-template-columns:1fr}.book-card{padding:24px 18px}}
+    .btn-book{width:100%;margin-top:8px;padding:14px;border:none;border-radius:12px;background:var(--sage-dark);color:#fff;font-size:15px;font-weight:600;cursor:pointer;font-family:inherit}
+    .btn-book:disabled{opacity:.65;cursor:not-allowed}
+    #bookMessage{display:none;margin-top:16px;padding:12px;border-radius:10px;font-size:13px;font-weight:600}
+  </style>
 </head>
-<body>
-
-<div class="container">
-
-    <h1>Book Appointment</h1>
-    <p class="subtitle">Schedule your visit with a doctor.</p>
-
-    <form action="appointment-confirmation.html">
-
+<body class="book-page">
+  <div class="book-wrap">
+    <div class="book-top">
+      <a href="patient-dashboard.html">← Dashboard</a>
+      <a href="appointment-history.html">History</a>
+    </div>
+    <div class="book-card">
+      <h1>Book Appointment</h1>
+      <p class="subtitle">Choose a doctor, date and time for your visit.</p>
+      <form id="bookForm">
         <div class="input-box">
-            <label>Patient Name</label>
-            <input type="text" placeholder="Enter your name" required>
+          <label for="doctorSelect">Doctor</label>
+          <select id="doctorSelect" required><option value="">Loading doctors…</option></select>
         </div>
-
-        
-
-        <div class="input-box">
-            <label>Select Date</label>
-            <input type="date" required>
-        </div>
-
-        <div class="input-box">
-            <label>Select Time Slot</label>
-
-            <select required>
-                <option value="">Choose Time</option>
-                <option>09:00 AM</option>
-                <option>09:30 AM</option>
-                <option>10:00 AM</option>
-                <option>10:30 AM</option>
-                <option>11:00 AM</option>
-                <option>11:30 AM</option>
-                <option>02:00 PM</option>
-                <option>02:30 PM</option>
-                <option>03:00 PM</option>
-                <option>03:30 PM</option>
-                <option>04:00 PM</option>
+        <div class="form-row">
+          <div class="input-box">
+            <label for="appointmentDate">Date</label>
+            <input type="date" id="appointmentDate" required>
+          </div>
+          <div class="input-box">
+            <label for="timeSlot">Time slot</label>
+            <select id="timeSlot" required>
+              <option value="">Choose time</option>
+              <option value="09:00 AM">09:00 AM</option>
+              <option value="09:30 AM">09:30 AM</option>
+              <option value="10:00 AM">10:00 AM</option>
+              <option value="10:30 AM">10:30 AM</option>
+              <option value="11:00 AM">11:00 AM</option>
+              <option value="11:30 AM">11:30 AM</option>
+              <option value="02:00 PM">02:00 PM</option>
+              <option value="02:30 PM">02:30 PM</option>
+              <option value="03:00 PM">03:00 PM</option>
+              <option value="03:30 PM">03:30 PM</option>
+              <option value="04:00 PM">04:00 PM</option>
             </select>
-
+          </div>
         </div>
-
         <div class="input-box">
-            <label>Reason for Visit</label>
-
-            <textarea rows="4" placeholder="Enter your symptoms or reason..." required></textarea>
-
+          <label for="visitReason">Reason for visit</label>
+          <textarea id="visitReason" rows="3" placeholder="Symptoms or reason…" required></textarea>
         </div>
-
-        <button type="submit">
-            Book Appointment
-        </button>
-
-    </form>
+        <button type="submit" class="btn-book" id="bookBtn">Continue to confirmation</button>
+        <div id="bookMessage"></div>
+      </form>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const session = await requirePatientAuth();
+      if (!session) return;
+      const doctorSelect = document.getElementById("doctorSelect");
+      const dateInput = document.getElementById("appointmentDate");
+      const form = document.getElementById("bookForm");
+      const msg = document.getElementById("bookMessage");
+      const today = new Date().toISOString().split("T")[0];
+      dateInput.min = today;
+      dateInput.value = today;
+      function showMsg(text, type) {
+        msg.style.display = "block";
+        msg.textContent = text;
+        msg.style.background = type === "error" ? "#f8d7da" : "#d4edda";
+        msg.style.color = type === "error" ? "#721c24" : "#155724";
+        msg.style.border = "1px solid " + (type === "error" ? "#f5c6cb" : "#c3e6cb");
+      }
+      const { data: doctors, error: docErr } = await supabase.from("doctors").select("id, full_name, department").order("full_name");
+      if (docErr || !doctors || !doctors.length) {
+        doctorSelect.innerHTML = '<option value="">No doctors available</option>';
+        showMsg(docErr ? "Could not load doctors: " + docErr.message : "No doctors registered yet.", "error");
+      } else {
+        doctorSelect.innerHTML = '<option value="">Select a doctor</option>' + doctors.map(d =>
+          `<option value="${d.id}" data-name="${d.full_name}" data-dept="${d.department || ""}">Dr. ${d.full_name}${d.department ? " — " + d.department : ""}</option>`
+        ).join("");
+      }
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const opt = doctorSelect.selectedOptions[0];
+        if (!opt || !opt.value) { showMsg("Please select a doctor.", "error"); return; }
+        sessionStorage.setItem("careflow_pending_appt", JSON.stringify({
+          doctor_id: opt.value,
+          doctor_name: opt.dataset.name || opt.textContent,
+          department: (opt.dataset.dept || "").trim() || "General",
+          appointment_date: dateInput.value,
+          time_slot: document.getElementById("timeSlot").value,
+          reason: document.getElementById("visitReason").value.trim()
+        }));
+        window.location.href = "appointment-confirmation.html";
+      });
+    });
+  </script>
+</body>
+</html>
 
 </div>
 
