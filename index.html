@@ -7,8 +7,7 @@
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- PNG favicon -->
-<link rel="icon" type="img/jpeg" href="img/1.jpg">>
+  <link rel="icon" type="image/jpeg" href="img/1.jpg">
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -51,40 +50,35 @@
         </div>
       </div>
 
-      <!-- QUEUE PREVIEW CARD -->
+      <!-- QUEUE PREVIEW CARD — live realtime patient flow -->
       <div class="queue-visual">
         <div class="visual-top-bar">
           <span class="visual-title">TODAY'S PATIENT FLOW</span>
-          <span class="live-indicator"><span></span> Live Queue</span>
+          <span class="live-indicator">
+            <span class="live-dot"></span>
+            <span id="liveLabel">Connecting…</span>
+          </span>
         </div>
         <div class="queue-heading">
           <div>
-            <p>Wednesday, July 25</p>
+            <p id="queueDateLabel">—</p>
             <h2>Patient Queue</h2>
           </div>
-          <span class="queue-count">08 Patients</span>
+          <span class="queue-count" id="queueCount">0 Patients</span>
         </div>
-        <div class="queue-list">
-          <div class="queue-item active">
-            <div class="queue-number">01</div>
-            <div class="patient-details">
-              <h3>Patient A</h3>
-              <p>Dr. Sharma · 10:00 AM</p>
-            </div>
-            <span class="queue-status in-progress">In Progress</span>
-          </div>
+        <div class="queue-list" id="liveQueueList">
           <div class="queue-item">
-            <div class="queue-number">02</div>
+            <div class="queue-number">…</div>
             <div class="patient-details">
-              <h3>Patient B</h3>
-              <p>Dr.P.Das· 10:30 AM</p>
+              <h3>Connecting…</h3>
+              <p>Loading live queue</p>
             </div>
-            <span class="queue-status waiting">Waiting</span>
+            <span class="queue-status waiting">—</span>
           </div>
         </div>
         <div class="visual-footer">
           <span>Next in queue</span>
-          <strong>Patient B →</strong>
+          <strong id="nextInQueue">—</strong>
         </div>
       </div>
     </section>
@@ -188,5 +182,164 @@
     <p>© 2026 CareFlow</p>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    (function () {
+      function todayISO() {
+        return new Date().toISOString().split("T")[0];
+      }
+
+      function formatDateLabel(iso) {
+        try {
+          return new Date(iso + "T00:00:00").toLocaleDateString("en-US", {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+          });
+        } catch (e) {
+          return iso;
+        }
+      }
+
+      function statusClass(st) {
+        st = (st || "booked").toLowerCase();
+        return st === "in_progress" ? "in-progress" : "waiting";
+      }
+
+      function statusLabel(st) {
+        st = (st || "booked").toLowerCase();
+        if (st === "in_progress") return "In Progress";
+        if (st === "waiting") return "Waiting";
+        if (st === "completed") return "Completed";
+        return "Booked";
+      }
+
+      async function loadLiveQueue() {
+        var listEl = document.getElementById("liveQueueList");
+        var countEl = document.getElementById("queueCount");
+        var dateEl = document.getElementById("queueDateLabel");
+        var nextEl = document.getElementById("nextInQueue");
+        if (!listEl || !window.supabase) return;
+
+        var today = todayISO();
+        if (dateEl) dateEl.textContent = formatDateLabel(today);
+
+        var result = await supabase
+          .from("appointments")
+          .select("id, time_slot, queue_number, status, reason, doctors ( full_name )")
+          .eq("appointment_date", today)
+          .in("status", ["booked", "waiting", "in_progress"])
+          .order("queue_number", { ascending: true })
+          .limit(8);
+
+        if (result.error) {
+          listEl.innerHTML =
+            '<div class="queue-item"><div class="queue-number">—</div><div class="patient-details"><h3>Unable to load</h3><p>' +
+            (result.error.message || "Check connection / RLS") +
+            '</p></div><span class="queue-status waiting">—</span></div>';
+          if (countEl) countEl.textContent = "0 Patients";
+          if (nextEl) nextEl.textContent = "—";
+          return;
+        }
+
+        var list = result.data || [];
+        if (countEl) {
+          countEl.textContent = list.length + (list.length === 1 ? " Patient" : " Patients");
+        }
+
+        if (!list.length) {
+          listEl.innerHTML =
+            '<div class="queue-item"><div class="queue-number">—</div><div class="patient-details"><h3>No patients in queue</h3><p>Appointments appear here in real time</p></div><span class="queue-status waiting">Empty</span></div>';
+          if (nextEl) nextEl.textContent = "—";
+          return;
+        }
+
+        listEl.innerHTML = list
+          .map(function (a, i) {
+            var doctor = a.doctors ? a.doctors.full_name : "Doctor";
+            var qn =
+              a.queue_number != null
+                ? String(a.queue_number).padStart(2, "0")
+                : String(i + 1).padStart(2, "0");
+            var active = a.status === "in_progress" ? " active" : "";
+            return (
+              '<div class="queue-item' +
+              active +
+              '"><div class="queue-number">' +
+              qn +
+              '</div><div class="patient-details"><h3>Queue #' +
+              qn +
+              "</h3><p>Dr. " +
+              doctor +
+              " · " +
+              (a.time_slot || "—") +
+              '</p></div><span class="queue-status ' +
+              statusClass(a.status) +
+              '">' +
+              statusLabel(a.status) +
+              "</span></div>"
+            );
+          })
+          .join("");
+
+        var next =
+          list.find(function (a) {
+            return a.status === "booked" || a.status === "waiting";
+          }) || list[0];
+        var nextQn =
+          next.queue_number != null
+            ? String(next.queue_number).padStart(2, "0")
+            : "—";
+        if (nextEl) nextEl.textContent = "Queue #" + nextQn + " →";
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var label = document.getElementById("liveLabel");
+        if (!window.supabase) {
+          if (label) label.textContent = "Offline";
+          return;
+        }
+
+        loadLiveQueue();
+
+        // Realtime patient connection for TODAY'S PATIENT FLOW
+        var channel = supabase
+          .channel("public-live-queue")
+          .on(
+            "postgres_changes",
+            {
+              event: "*",
+              schema: "public",
+              table: "appointments",
+            },
+            function (payload) {
+              console.log("[CareFlow] Public queue realtime", payload.eventType);
+              loadLiveQueue();
+            }
+          )
+          .subscribe(function (status) {
+            if (!label) return;
+            if (status === "SUBSCRIBED") {
+              label.textContent = "Live Queue";
+              console.log("[CareFlow] Index live queue connected");
+            } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
+              label.textContent = "Polling";
+            } else if (status === "CLOSED") {
+              label.textContent = "Offline";
+            }
+          });
+
+        // Fallback if Realtime is not enabled on appointments yet
+        setInterval(loadLiveQueue, 20000);
+
+        window.addEventListener("beforeunload", function () {
+          try {
+            supabase.removeChannel(channel);
+          } catch (e) {}
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
