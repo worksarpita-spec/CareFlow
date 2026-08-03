@@ -3,16 +3,21 @@
 ===================================================== */
 
 :root {
-  --background: #f8f9f6;
-  --surface: #ffffff;
-  --surface-soft: #f1f4f0;
-  --text-primary: #25302b;
-  --text-secondary: #7b8580;
-  --text-light: #a1aaa5;
-  --sage: #91a99a;
-  --sage-dark: #789884;
-  --sage-soft: #e5ece7;
-  --border: #e7ebe7;
+  --background: #F3F8FF;
+  --surface: #FFFFFF;
+  --surface-soft: #EAF3FF;
+
+  --text-primary: #102A43;
+  --text-secondary: #486581;
+  --text-light: #829AB1;
+
+  --blue: #3B82F6;
+  --blue-dark: #2563A8;
+  --blue-soft: #DCEBFF;
+
+  --cyan: #38BDF8;
+
+  --border: #D8E7F7;
 }
 
 * {
@@ -27,7 +32,9 @@ html {
 
 body {
   font-family: "DM Sans", sans-serif;
-  background: var(--background);
+  background:
+    radial-gradient(circle at top left, rgba(56,189,248,0.15), transparent 35%),
+    var(--background);
   color: var(--text-primary);
   overflow-x: hidden;
 }
@@ -94,14 +101,14 @@ a {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--sage);
+  background: var(--blue);
   color: white;
   font-size: 21px;
   font-weight: 500;
 }
 
 .logo-name span {
-  color: var(--sage-dark);
+  color: var(--blue-dark);
 }
 
 .nav-links {
@@ -117,13 +124,13 @@ a {
 }
 
 .nav-links a:hover {
-  color: var(--sage-dark);
+  color: var(--blue-dark);
 }
 
 .nav-cta {
   padding: 13px 22px;
   border-radius: 30px;
-  background: var(--text-primary);
+  background: #102A43;
   color: white;
   font-size: 13px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -170,7 +177,7 @@ a {
 
 .eyebrow {
   margin-bottom: 22px;
-  color: var(--sage-dark);
+  color: var(--blue-dark);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 2.5px;
@@ -186,7 +193,7 @@ a {
 
 .hero h1 span {
   display: block;
-  color: var(--sage-dark);
+  color: var(--blue-dark);
 }
 
 .hero-description {
@@ -215,7 +222,11 @@ a {
   gap: 18px;
   padding: 15px 22px;
   border-radius: 30px;
-  background: var(--sage-dark);
+  background: linear-gradient(
+  135deg,
+  #2563A8,
+  #38BDF8
+);
   color: white;
   font-size: 13px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -227,7 +238,7 @@ a {
 
 .primary-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(100, 130, 110, 0.16);
+  box-shadow: 0 12px 25px rgba(37,99,168,0.25);
 }
 
 .text-button {
@@ -241,7 +252,7 @@ a {
 
 .text-button:hover {
   gap: 15px;
-  color: var(--sage-dark);
+  color: var(--blue-dark);
 }
 
 .secondary-button {
@@ -273,8 +284,8 @@ a {
   border: 1px solid var(--border);
   border-radius: 30px;
   box-shadow:
-    0 25px 80px rgba(45, 60, 52, 0.08),
-    0 5px 20px rgba(45, 60, 52, 0.03);
+    0 25px 80px rgba(37,99,168,0.12),
+    0 5px 20px rgba(37,99,168,0.05);
   opacity: 0;
   animation:
     fadeUp 1s ease 0.15s forwards,
@@ -300,7 +311,7 @@ a {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: var(--sage-dark);
+  color: var(--blue-dark);
   font-size: 11px;
 }
 
@@ -311,7 +322,7 @@ a {
   height: 7px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: var(--sage);
+  background: var(--blue);
   animation: livePulse 2s ease-in-out infinite;
 }
 
@@ -348,7 +359,7 @@ a {
   padding: 8px 13px;
   border-radius: 20px;
   background: var(--surface-soft);
-  color: var(--sage-dark);
+  color: var(--blue-dark);
   font-size: 11px;
 }
 
@@ -379,9 +390,8 @@ a {
   box-shadow: 0 8px 20px rgba(80, 100, 88, 0.05);
 }
 
-.queue-item.active {
-  background: #f2f7f3;
-  border-color: #d7e4da;
+background: #EDF6FF;
+border-color: #C7DFFF;
 }
 
 .queue-number {
@@ -391,8 +401,8 @@ a {
   align-items: center;
   justify-content: center;
   border-radius: 12px;
-  background: var(--sage-soft);
-  color: var(--sage-dark);
+  background: var(--blue-soft);
+  color: var(--blue-dark);
   font-size: 13px;
   font-weight: 700;
   transition: transform 0.3s ease, background 0.3s ease;
@@ -443,7 +453,7 @@ a {
 }
 
 .visual-footer strong {
-  color: var(--sage-dark);
+  color: var(--blue-dark);
 }
 
 /* =====================================================
@@ -517,7 +527,7 @@ a {
 
 .section-header h2 span {
   display: block;
-  color: var(--sage-dark);
+  color: var(--blue-dark);
 }
 
 .appointment-flow {
@@ -557,7 +567,7 @@ a {
 }
 
 .flow-number {
-  color: var(--sage-dark);
+  color: var(--blue-dark);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 1px;
@@ -570,8 +580,8 @@ a {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: var(--sage-soft);
-  color: var(--sage-dark);
+  background: var(--blue-soft);
+  color: var(--blue-dark);
   font-size: 18px;
   transition: transform 0.4s ease, background 0.4s ease;
 }
@@ -603,7 +613,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--sage);
+  color: var(--blue);
   font-size: 22px;
   opacity: 0.65;
 }
@@ -615,7 +625,7 @@ a {
 
 .appointment-flow:hover .flow-connector span {
   transform: translateX(5px);
-  color: var(--sage-dark);
+  color: var(--blue-dark);
 }
 
 .flow-status-bar {
@@ -642,7 +652,7 @@ a {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--sage);
+  background: var(--blue);
   animation: livePulse 2s ease-in-out infinite;
 }
 
@@ -672,7 +682,7 @@ a {
 
 .cta-section h2 span {
   display: block;
-  color: var(--sage-dark);
+  color: var(--blue-dark);
 }
 
 .cta-buttons {
@@ -715,7 +725,7 @@ a {
 }
 
 .back-home:hover {
-  color: var(--sage-dark);
+  color: var(--blue-dark);
 }
 
 .login-container {
@@ -752,7 +762,7 @@ a {
 
 .login-intro h1 span {
   display: block;
-  color: var(--sage-dark);
+  color: var(--blue-dark);
 }
 
 .login-description {
@@ -789,7 +799,7 @@ a {
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: var(--sage);
+  background: var(--blue);
   animation: livePulse 2s ease-in-out infinite;
 }
 
@@ -868,7 +878,7 @@ a {
 }
 
 .password-label a {
-  color: var(--sage-dark);
+  color: var(--blue-dark);
   font-size: 11px;
 }
 
@@ -881,7 +891,7 @@ a {
   padding: 15px;
   border: none;
   border-radius: 12px;
-  background: var(--sage-dark);
+  background: var(--blue-dark);
   color: white;
   font-family: inherit;
   font-size: 13px;
@@ -938,7 +948,7 @@ a {
 }
 
 .login-footer a {
-  color: var(--sage-dark);
+  color: var(--blue-dark);
 }
 
 /* =====================================================
