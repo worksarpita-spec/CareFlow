@@ -304,12 +304,26 @@ a {
   font-size: 11px;
 }
 
-.live-indicator span {
+/* Only the status dot — not the text label (avoids duplicate indicator) */
+.live-indicator > .live-dot,
+.live-indicator > span:first-child:not(#liveLabel) {
   width: 7px;
   height: 7px;
+  flex-shrink: 0;
   border-radius: 50%;
   background: var(--sage);
   animation: livePulse 2s ease-in-out infinite;
+}
+
+.live-indicator #liveLabel {
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  animation: none;
+  font-size: 11px;
+  line-height: 1;
 }
 
 .queue-heading {
