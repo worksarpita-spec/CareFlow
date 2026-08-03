@@ -1,156 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Doctor Dashboard | CareFlow</title>
-
-<link rel="stylesheet" href="doctor-login.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Login | CareFlow</title>
+  <link rel="stylesheet" href="doctor-login.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .login-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: var(--background, #f8f9f6);
+    }
+    .login-box {
+      width: 100%;
+      max-width: 400px;
+      background: #fff;
+      border: 1px solid var(--border, #e7ebe7);
+      border-radius: 22px;
+      padding: 40px;
+      box-shadow: 0 20px 50px rgba(45, 60, 52, 0.06);
+    }
+    .login-box .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .logo-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--sage-dark, #789884);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-box h1 {
+      text-align: center;
+      font-size: 22px;
+      margin: 12px 0 6px;
+      color: var(--text-primary, #25302b);
+    }
+    .login-box p.subtitle {
+      text-align: center;
+      color: var(--text-secondary, #7b8580);
+      font-size: 13px;
+      margin-bottom: 28px;
+    }
+    .field { margin-bottom: 18px; }
+    .field label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text-primary, #25302b);
+    }
+    .field input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border, #e7ebe7);
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      background: #fafcf9;
+    }
+    .field input:focus {
+      border-color: var(--sage, #91a99a);
+      box-shadow: 0 0 0 4px rgba(145, 169, 154, 0.12);
+    }
+    .login-submit {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 12px;
+      background: var(--sage-dark, #789884);
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      margin-top: 6px;
+      font-family: inherit;
+    }
+    .login-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    #loginMessage {
+      display: none;
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-secondary, #7b8580);
+      text-decoration: none;
+    }
+    .back-link:hover { color: var(--sage-dark, #789884); }
+  </style>
 </head>
-
 <body>
+  <div class="login-wrap">
+    <div class="login-box">
+      <div class="logo">
+        <div class="logo-mark">+</div>
+        <div>Care<span style="color:var(--sage-dark,#789884)">Flow</span></div>
+      </div>
+      <h1>Doctor Login</h1>
+      <p class="subtitle">Sign in to access your queue and patients.</p>
 
-<header class="topbar">
+      <form id="doctorLoginForm">
+        <div class="field">
+          <label for="doctorEmail">Email Address</label>
+          <input type="email" id="doctorEmail" placeholder="you@careflow.demo" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="doctorPassword">Password</label>
+          <input type="password" id="doctorPassword" placeholder="Enter your password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="login-submit" id="doctorLoginBtn" >
+          Login to Doctor Portal
+        </button>
+        <div id="loginMessage" role="alert"></div>
+      </form>
 
-<div class="logo">
-<div class="logo-mark">+</div>
-<div class="logo-name">Care<span>Flow</span></div>
-</div>
+      <a href="index.html" class="back-link">← Back to CareFlow</a>
+    </div>
+  </div>
 
-<div class="doctor-info">
-Welcome, <strong>Dr. Sharma</strong>
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("doctorLoginForm");
+      const btn = document.getElementById("doctorLoginBtn");
+      const messageBox = document.getElementById("loginMessage");
 
-</header>
+      function showMessage(text, type) {
+        messageBox.style.display = "block";
+        messageBox.textContent = text;
+        messageBox.style.background = type === "error" ? "#f8d7da" : "#d4edda";
+        messageBox.style.color = type === "error" ? "#721c24" : "#155724";
+        messageBox.style.border = "1px solid " + (type === "error" ? "#f5c6cb" : "#c3e6cb");
+      }
 
-<div class="dashboard">
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.textContent = "Logging in…";
 
-<aside class="sidebar">
+        const email = document.getElementById("doctorEmail").value.trim();
+        const password = document.getElementById("doctorPassword").value;
 
-<h3>Navigation</h3>
+        // 1. Authenticate with Supabase Auth
+        const { data: authData, error: authError } = await signIn(email, password);
 
-<a href="#">🏠 Dashboard</a>
-<a href="#">📋 Today's Queue</a>
-<a href="#">👨‍⚕️ Patients</a>
-<a href="#">📊 Reports</a>
-<a href="#">🚪 Logout</a>
+        if (authError) {
+          showMessage(authError.message, "error");
+          btn.disabled = false;
+          btn.textContent = "Login to Doctor Portal";
+          return;
+        }
 
-</aside>
+        // 2. Verify this user is a registered doctor
+        const { data: doctorRow, error: doctorError } = await supabase
+          .from("doctors")
+          .select("id, full_name, department, email")
+          .eq("email", email)
+          .maybeSingle();
 
-<main class="content">
+        if (doctorError || !doctorRow) {
+          showMessage("This account is not registered as a doctor.", "error");
+          await supabase.auth.signOut();
+          btn.disabled = false;
+          btn.textContent = "Login to Doctor Portal";
+          return;
+        }
 
-<h1>Today's Queue</h1>
+        // 3. Store doctor profile for the session and go to dashboard
+        sessionStorage.setItem("careflow_doctor", JSON.stringify(doctorRow));
+        showMessage("Login successful! Redirecting…", "success");
+        setTimeout(() => {
+          window.location.href = "doctor-dashboard.html";
+        }, 500);
+      });
 
-<div class="stats">
-
-<div class="stat-card">
-<h2>12</h2>
-<p>Waiting</p>
-</div>
-
-<div class="stat-card">
-<h2>1</h2>
-<p>In Progress</p>
-</div>
-
-<div class="stat-card">
-<h2>8</h2>
-<p>Completed</p>
-</div>
-
-<div class="stat-card">
-<h2>21</h2>
-<p>Total Patients</p>
-</div>
-
-</div>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>Queue</th>
-<th>Patient</th>
-<th>Time</th>
-<th>Status</th>
-<th>Action</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-<td>001</td>
-<td>Rahul Das</td>
-<td>09:00</td>
-<td><span class="waiting">Waiting</span></td>
-<td><button class="call-btn">Call</button></td>
-
-</tr>
-
-<tr>
-
-<td>002</td>
-<td>Priya Sharma</td>
-<td>09:15</td>
-<td><span class="waiting">Waiting</span></td>
-<td><button class="call-btn">Call</button></td>
-
-</tr>
-
-<tr>
-
-<td>003</td>
-<td>Ankit Roy</td>
-<td>09:30</td>
-<td><span class="progress">In Progress</span></td>
-
-<td>
-
-<button class="complete-btn">Complete</button>
-
-<button class="skip-btn">Skip</button>
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-<div class="current-card">
-
-<h2>Current Patient</h2>
-
-<p><strong>Queue :</strong> 003</p>
-<p><strong>Name :</strong> Ankit Roy</p>
-<p><strong>Doctor :</strong> Dr. Sharma</p>
-<p><strong>Reason :</strong> Fever & Cough</p>
-
-<div class="actions">
-
-<button class="complete-btn">
-Complete Patient
-</button>
-
-<button class="skip-btn">
-Skip Patient
-</button>
-
-</div>
-
-</div>
-
-</main>
-
-</div>
-
+      // Already logged in as a doctor? Skip to dashboard
+      (async () => {
+        const session = await getSession();
+        if (!session) return;
+        const { data: doctorRow } = await supabase
+          .from("doctors")
+          .select("id, full_name, department, email")
+          .eq("email", session.user.email)
+          .maybeSingle();
+        if (doctorRow) {
+          sessionStorage.setItem("careflow_doctor", JSON.stringify(doctorRow));
+          window.location.href = "doctor-dashboard.html";
+        }
+      })();
+    });
+  </script>
 </body>
 </html>
