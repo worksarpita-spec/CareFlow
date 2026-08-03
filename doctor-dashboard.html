@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Dashboard | CareFlow</title>
+  <link rel="stylesheet" href="doctor-login.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .topbar{height:80px;background:#fff;display:flex;justify-content:space-between;align-items:center;padding:0 24px;border-bottom:1px solid var(--border);flex-wrap:wrap;gap:12px}
+    .logo{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:700}
+    .logo-mark{width:35px;height:35px;border-radius:50%;background:var(--sage-dark);color:#fff;display:flex;align-items:center;justify-content:center}
+    .dashboard{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 80px)}
+    @media(max-width:800px){.dashboard{grid-template-columns:1fr}.sidebar{border-right:none;border-bottom:1px solid var(--border)}}
+    .sidebar{background:#fff;border-right:1px solid var(--border);padding:28px 20px}
+    .sidebar h3{margin-bottom:20px;font-size:14px;color:var(--text-secondary)}
+    .sidebar a{display:block;padding:12px 14px;margin-bottom:8px;border-radius:12px;text-decoration:none;color:var(--text-secondary)}
+    .sidebar a:hover,.sidebar a.active{background:var(--surface-soft);color:var(--sage-dark)}
+    .content{padding:28px 24px}
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:16px;margin:24px 0}
+    .stat-card{background:#fff;padding:20px;border-radius:16px;border:1px solid var(--border);text-align:center}
+    .stat-card h2{font-size:32px;color:var(--sage-dark);margin:0}
+    .stat-card p{font-size:12px;color:var(--text-secondary);margin-top:6px}
+    table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;margin-bottom:28px;font-size:14px}
+    th{background:var(--surface-soft);padding:14px;text-align:left}
+    td{padding:14px;border-bottom:1px solid var(--border)}
+    .waiting{color:#8c8c5b;font-weight:600}.progress{color:#5f8a68;font-weight:600}
+    .call-btn,.complete-btn,.skip-btn{padding:8px 14px;border:none;border-radius:10px;cursor:pointer;margin-right:6px;font-size:12px}
+    .call-btn,.complete-btn{background:var(--sage-dark);color:#fff}.skip-btn{background:#ecefed}
+    .current-card{background:#fff;padding:24px;border-radius:18px;border:1px solid var(--border);margin-bottom:28px}
+    .actions{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="logo"><div class="logo-mark">+</div><div>Care<span style="color:var(--sage-dark)">Flow</span></div></div>
+    <div><span id="docName">Doctor</span> · <a href="#" id="logoutLink" style="color:var(--text-secondary);font-size:13px">Logout</a></div>
+  </header>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <h3>MENU</h3>
+      <a href="doctor-dashboard.html" class="active">Today's Queue</a>
+      <a href="index.html">Back to Home</a>
+    </aside>
+    <main class="content">
+      <h1 style="font-family:Manrope,sans-serif;font-size:28px;letter-spacing:-1px">Today's Patient Queue</h1>
+      <p style="color:var(--text-secondary);font-size:14px;margin-top:6px" id="deptLabel">Loading…</p>
+      <div class="stats">
+        <div class="stat-card"><h2 id="statTotal">0</h2><p>Total today</p></div>
+        <div class="stat-card"><h2 id="statWaiting">0</h2><p>Waiting</p></div>
+        <div class="stat-card"><h2 id="statProgress">0</h2><p>In progress</p></div>
+        <div class="stat-card"><h2 id="statDone">0</h2><p>Completed</p></div>
+      </div>
+      <div class="current-card" id="currentCard"><h2>Current patient</h2><p style="color:var(--text-secondary)">No patient in progress.</p></div>
+      <h2 style="margin-bottom:14px;font-size:18px">Queue list</h2>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>#</th><th>Time</th><th>Reason</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="queueBody"><tr><td colspan="5">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      const auth = await requireDoctorAuth();
+      if (!auth) return;
+      const doctor = auth.doctor;
+      document.getElementById("docName").textContent = "Dr. " + doctor.full_name;
+      document.getElementById("deptLabel").textContent = doctor.department || "General";
+      document.getElementById("logoutLink").addEventListener("click", (e) => {
+        e.preventDefault(); executeLogout("doctor-login.html");
+      });
+      const today = new Date().toISOString().split("T")[0];
+      async function loadQueue() {
+        const { data: appts, error } = await supabase.from("appointments")
+          .select("id, time_slot, queue_number, status, reason, patient_id")
+          .eq("doctor_id", doctor.id).eq("appointment_date", today)
+          .order("queue_number", { ascending: true });
+        if (error) {
+          document.getElementById("queueBody").innerHTML = `<tr><td colspan="5" style="color:#b06b6b">${error.message}</td></tr>`;
+          return;
+        }
+        const list = appts || [];
+        document.getElementById("statTotal").textContent = list.length;
+        document.getElementById("statWaiting").textContent = list.filter(a => a.status === "waiting" || a.status === "booked").length;
+        document.getElementById("statProgress").textContent = list.filter(a => a.status === "in_progress").length;
+        document.getElementById("statDone").textContent = list.filter(a => a.status === "completed").length;
+        const current = list.find(a => a.status === "in_progress");
+        const currentCard = document.getElementById("currentCard");
+        if (current) {
+          currentCard.innerHTML = `<h2>Current patient</h2>
+            <p><strong>Queue #</strong> ${String(current.queue_number).padStart(2,"0")}</p>
+            <p><strong>Time</strong> ${current.time_slot || "—"}</p>
+            <p><strong>Reason</strong> ${current.reason || "—"}</p>
+            <div class="actions">
+              <button class="complete-btn" data-id="${current.id}" data-action="completed">Mark complete</button>
+              <button class="skip-btn" data-id="${current.id}" data-action="waiting">Return to waiting</button>
+            </div>`;
+        } else {
+          currentCard.innerHTML = `<h2>Current patient</h2><p style="color:var(--text-secondary)">No patient in progress. Call the next from the list.</p>`;
+        }
+        if (!list.length) {
+          document.getElementById("queueBody").innerHTML = `<tr><td colspan="5" style="color:var(--text-secondary)">No appointments for today.</td></tr>`;
+          return;
+        }
+        document.getElementById("queueBody").innerHTML = list.map(a => {
+          const st = a.status || "booked";
+          const stClass = st === "in_progress" ? "progress" : "waiting";
+          let actions = "—";
+          if (st === "booked" || st === "waiting") actions = `<button class="call-btn" data-id="${a.id}" data-action="in_progress">Call</button>`;
+          else if (st === "in_progress") actions = `<button class="complete-btn" data-id="${a.id}" data-action="completed">Complete</button>`;
+          return `<tr><td>${a.queue_number != null ? String(a.queue_number).padStart(2,"0") : "—"}</td>
+            <td>${a.time_slot || "—"}</td><td>${a.reason || "—"}</td>
+            <td class="${stClass}">${st.replace("_"," ")}</td><td>${actions}</td></tr>`;
+        }).join("");
+        document.querySelectorAll("[data-action]").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            await supabase.from("appointments").update({ status: btn.getAttribute("data-action") }).eq("id", btn.getAttribute("data-id"));
+            loadQueue();
+          });
+        });
+      }
+      loadQueue();
+      setInterval(loadQueue, 15000);
+    });
+  </script>
+</body>
+</html>
